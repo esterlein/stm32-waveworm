@@ -54,7 +54,7 @@ namespace CLOCK
 }
 
 // interrupt
-void sys_tick_handler()
+extern "C" void sys_tick_handler()
 {
 	++CLOCK::system_millis;
 	if(CLOCK::delay_timer > 0) {
