@@ -1,7 +1,1 @@
-The idea of the project is to implement a 3D graphics engine on STM-32. Loaded objects must visualize the input on the ADС pins (waveform for visualization purposes, not analysis). ADС will deliver data through DMA (multichannel). An image buffer from the graphics engine for SPI (TFT) will also be handled through DMA, interaction with the outside world through the USART.
 
-Interrupts are handled through a pointer to the base class in a structure containing the addresses of the instances of each peripheral. Maybe I'll replace this code with templates in the future and remove the dependency on libopencm
-
-I used libopencm3 for initialization (most likely, I will switch to a more powerful processor).
-
-As for now, it's a VSCode project on Mac with gcc and openocd as a gdbserver for on-board st-link.
