@@ -1,0 +1,30 @@
+{
+    "cortex-debug.gdbPath": "/usr/local/bin/gdb",
+    "cortex-debug.openocdPath": "/usr/local/bin/openocd",
+    "files.associations": {
+        "csetjmp": "cpp",
+        "cmath": "cpp",
+        "compare": "cpp",
+        "concepts": "cpp",
+        "cstdarg": "cpp",
+        "cstdint": "cpp",
+        "cstdio": "cpp",
+        "cstdlib": "cpp",
+        "exception": "cpp",
+        "type_traits": "cpp",
+        "limits": "cpp",
+        "new": "cpp",
+        "*.tcc": "cpp",
+        "typeinfo": "cpp",
+        "array": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp",
+        "memory": "cpp",
+        "optional": "cpp",
+        "string_view": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "functional": "cpp",
+        "tuple": "cpp"
+    }
+}

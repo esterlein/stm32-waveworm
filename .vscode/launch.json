@@ -1,0 +1,18 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OpenOCD Cortex Debug",
+            "cwd": "${workspaceFolder}",
+            "executable": "./main/WaveWorm.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "servertype": "openocd",
+            "configFiles": [
+                "/usr/local/share/openocd/scripts/interface/stlink.cfg",
+                "/usr/local/share/openocd/scripts/target/stm32f4x.cfg"
+            ]
+        }
+    ]
+}

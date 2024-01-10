@@ -1,0 +1,33 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Clean & Build",
+            "command": "make all",
+            "options": {
+                "cwd": "${workspaceFolder}/main"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "base": "$gcc", 
+                "fileLocation": ["relative", "${workspaceFolder}/main"]
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Build & Flash",
+            "command": "make stlink-flash",
+            "options": {
+                "cwd": "${workspaceFolder}/main"
+            },
+            "problemMatcher": {
+                "base": "$gcc", 
+                "fileLocation": ["relative", "${workspaceFolder}/main"]
+            }
+        }
+    ]
+}

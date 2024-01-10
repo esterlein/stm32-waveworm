@@ -3,7 +3,7 @@ SRC_DIR			= src
 INC_DIR			= inc
 OPENCM3_DIR		= ../libopencm3
 
-BINARY = main
+BINARY = WaveWorm
 
 # target device
 LIBNAME			 = opencm3_stm32f4
@@ -18,14 +18,25 @@ LDSCRIPT	 = STM32F429ZI.ld
 DEFS		+= -I$(INC_DIR)
 
 # source files
+OBJS		+= $(SRC_DIR)/Clock.o
+OBJS		+= $(SRC_DIR)/SDRAM.o
+OBJS		+= $(SRC_DIR)/Interrupt.o
+OBJS		+= $(SRC_DIR)/PerifLCD.o
+OBJS		+= $(SRC_DIR)/PerifADC.o
+OBJS		+= $(SRC_DIR)/PerifConsole.o
+OBJS		+= $(SRC_DIR)/Driver.o
+OBJS		+= $(SRC_DIR)/GraphicsEngine.o
+
 OBJS		+= $(SRC_DIR)/$(BINARY).o
-OBJS		+= $(SRC_DIR)/delay.o
+
 
 # libraries
 DEFS		+= -I$(OPENCM3_DIR)/include
 LDFLAGS		+= -L$(OPENCM3_DIR)/lib
 LDLIBS		+= -l$(LIBNAME)
-LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -Wl,--end-group
+LDLIBS		+= --specs=rdimon.specs
+LDLIBS		+= -Wl,--start-group -lc -lgcc -lnosys -lrdimon -Wl,--end-group
+LDLIBS		+= -lm -lstdc++
 
 # compiler config
 PREFIX		?= arm-none-eabi
@@ -44,7 +55,7 @@ CSTD		?= -std=c99
 STFLASH		= $(shell which st-flash)
 
 # linker config
-TGT_LDFLAGS		+= --static -nostartfiles
+TGT_LDFLAGS		+= --static
 TGT_LDFLAGS		+= -T$(LDSCRIPT)
 TGT_LDFLAGS		+= $(ARCH_FLAGS) $(DEBUG)
 TGT_LDFLAGS		+= -Wl,-Map=$(*).map -Wl,--cref
@@ -76,21 +87,17 @@ OOCD_INTERFACE	?= stlink-v2
 OOCD_TARGET		?= stm32f4x
 
 # translation targets
-.SUFFIXES: .elf .bin .hex .srec .list .map .images
+.SUFFIXES: .elf .bin .map
 .SECONDEXPANSION:
 .SECONDARY:
 
-all: elf size
+all: clean elf size
 size: $(BINARY).size
 elf: $(BINARY).elf
 bin: $(BINARY).bin
-hex: $(BINARY).hex
-srec: $(BINARY).srec
-list: $(BINARY).list
 flash: $(BINARY).flash
-images: $(BINARY).images
 
-GENERATED_BINARIES = $(BINARY).elf $(BINARY).bin $(BINARY).hex $(BINARY).srec $(BINARY).list $(BINARY).map
+GENERATED_BINARIES = $(BINARY).elf $(BINARY).bin $(BINARY).map
 
 $(OPENCM3_DIR)/lib/lib$(LIBNAME).a:
 ifeq (,$(wildcard $@))
@@ -98,20 +105,8 @@ ifeq (,$(wildcard $@))
 	$(MAKE) -C $(OPENCM3_DIR)
 endif
 
-%.images: %.bin %.hex %.srec %.list %.map
-	@#printf "*** $* images generated ***\n"
-
 %.bin: %.elf
 	$(OBJCOPY) -Obinary $(*).elf $(*).bin
-
-%.hex: %.elf
-	$(OBJCOPY) -Oihex $(*).elf $(*).hex
-
-%.srec: %.elf
-	$(OBJCOPY) -Osrec $(*).elf $(*).srec
-
-%.list: %.elf
-	$(OBJDUMP) -S $(*).elf > $(*).list
 
 %.elf %.map: $(OBJS) $(LDSCRIPT)
 	$(LD) $(TGT_LDFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(*).elf
@@ -137,12 +132,7 @@ endif
     } \
 	{ printf("%10s %8s\n", $$1, human_readable_size($$2)) } \
 '
-%.stlink-flash: %.bin
-	@printf "  FLASH  $<\n"
-	$(STFLASH) write $(*).bin 0x8000000
 
-ifeq ($(BMP_PORT),)
-ifeq ($(OOCD_FILE),)
 %.flash: %.elf
 	@printf "  FLASH   $<\n"
 	(echo "halt; program $(realpath $(*).elf) verify reset" | nc -4 localhost 4444 2>/dev/null) || \
@@ -150,22 +140,10 @@ ifeq ($(OOCD_FILE),)
 		-f target/$(OOCD_TARGET).cfg \
 		-c "program $(*).elf verify reset exit" \
 		$(NULL)
-else
-%.flash: %.elf
-	@printf "  FLASH   $<\n"
-	(echo "halt; program $(realpath $(*).elf) verify reset" | nc -4 localhost 4444 2>/dev/null) || \
-		$(OOCD) -f $(OOCD_FILE) \
-		-c "program $(*).elf verify reset exit" \
-		$(NULL)
-endif
-else
-%.flash: %.elf
-	@printf "  GDB   $(*).elf (flash)\n"
-	$(GDB) --batch \
-		   -ex 'target extended-remote $(BMP_PORT)' \
-		   -x $(EXAMPLES_SCRIPT_DIR)/black_magic_probe_flash.scr \
-		   $(*).elf
-endif
+
+%.stlink-flash: %.bin
+	@printf "  FLASH  $<\n"
+	$(STFLASH) write $(*).bin 0x8000000
 
 clean:
 	$(RM) $(GENERATED_BINARIES) generated.* $(OBJS) $(OBJS:%.o=%.d)
