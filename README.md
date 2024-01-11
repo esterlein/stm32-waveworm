@@ -4,7 +4,7 @@
 The project is aimed to visualize multichannel analog input in 3D space.
 It is being written for the STM32F4 series board with an Arm Cortex-M4 processor.
 Some parts of the code for graphics primitives is a modified version of a modified version of Adafruit code.
-This code will be replaced very soon.
+This code will be replaced **very soon**.
 
 ## Prerequisites
 Currently developing on MacOS but should compile on Linux with minor path adjustments.
