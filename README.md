@@ -7,13 +7,12 @@ Some parts of the code for graphics primitives is a modified version of a modifi
 This code will be replaced very soon.
 
 ## Prerequisites
+Currently developing on MacOS but should compile on Linux with minor path adjustments.
 * [Arm GNU Toolchain](https://developer.arm.com/Tools%20and%20Software/GNU%20Toolchain)
 * [GNU Make](https://www.gnu.org/software/make/)
 * ST-Link/V2
 * [libopencm3](https://github.com/libopencm3/libopencm3) library
 * [OpenOCD](https://openocd.org/) as a GDB server
-
-Currently developing on MacOS but should compile on Linux with minor path adjustments.
 
 ## Build & Flash
 ```
