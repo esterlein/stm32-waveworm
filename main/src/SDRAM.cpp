@@ -75,10 +75,10 @@ void SDRAM::sdramInit()
 
     sdram_command(SDRAM_BANK2, SDRAM_PALL, 1, 0);
     sdram_command(SDRAM_BANK2, SDRAM_AUTO_REFRESH, 4, 0);
-    timg_reg = SDRAM_MODE_BURST_LENGTH_2			|
-                SDRAM_MODE_BURST_TYPE_SEQUENTIAL	|
-                SDRAM_MODE_CAS_LATENCY_3			|
-                SDRAM_MODE_OPERATING_MODE_STANDARD	|
+    timg_reg = SDRAM_MODE_BURST_LENGTH_2            |
+                SDRAM_MODE_BURST_TYPE_SEQUENTIAL    |
+                SDRAM_MODE_CAS_LATENCY_3            |
+                SDRAM_MODE_OPERATING_MODE_STANDARD  |
                 SDRAM_MODE_WRITEBURST_MODE_SINGLE;
     sdram_command(SDRAM_BANK2, SDRAM_LOAD_MODE, 1, timg_reg);
 
