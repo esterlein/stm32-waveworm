@@ -29,8 +29,8 @@ namespace LCD
     struct Command
     {
         uint16_t delay;
-	    uint8_t  cmd;
-	    uint32_t n_args;
+        uint8_t  cmd;
+        uint32_t n_args;
     };
 
     inline constexpr uint8_t size_W[] = {
