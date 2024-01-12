@@ -89,15 +89,13 @@ PerifLCD::PerifLCD()
     spi_enable_ss_output(LCD_INIT::SPI);
     spi_enable(LCD_INIT::SPI);
 
-    int index = 0;
     int offset = 0;
 
-    while(LCD_INIT::init_array[index].cmd) {
+    for(auto command : LCD_INIT::init_array) {
         
-        spiCommand(LCD_INIT::init_array[index], &LCD_INIT::cmd_args[offset]);
+        spiCommand(command, &LCD_INIT::cmd_args[offset]);
         
-        offset += LCD_INIT::init_array[index].n_args;
-        ++index;
+        offset += command.n_args;
     }
 
     testImage();
@@ -114,7 +112,7 @@ void PerifLCD::spiCommand(const LCD::Command& command, const uint8_t* args)
     if(n_args) {
         gpio_set(GPIOD, GPIO13);
 
-        for(int i = 0; i < n_args; ++i) {
+        for(uint32_t i = 0; i < n_args; ++i) {
             (void) spi_xfer(LCD_INIT::SPI, *(args + i));
         }
     }
@@ -124,6 +122,25 @@ void PerifLCD::spiCommand(const LCD::Command& command, const uint8_t* args)
     if(command.delay) {
         CLOCK::msleep(command.delay);
     }
+}
+
+// Optimize with DMA 
+
+void PerifLCD::drawPixel(int x, int y, uint16_t color)
+{
+    if(x >= LCD::WIDTH || y >= LCD::HEIGHT) return;
+    *(m_curr_frame + x + y * LCD::WIDTH) = color;
+}
+
+void PerifLCD::showFrame()
+{
+    uint16_t* temp = m_display_frame;
+    m_display_frame = m_curr_frame;
+    m_curr_frame = temp;
+    
+    spiCommand({ 0, 0x2A, 4 }, &LCD::size_W[0]);
+    spiCommand({ 0, 0x2B, 4 }, &LCD::size_H[0]);
+    spiCommand({ 0, 0x2C, LCD::FRAME_SIZE_BYTES}, reinterpret_cast<const uint8_t*>(m_display_frame));
 }
 
 void PerifLCD::testImage()
@@ -144,25 +161,6 @@ void PerifLCD::testImage()
             drawPixel(x, y, pixel);
         }
     }
-}
-
-// Optimize with DMA 
-
-void PerifLCD::showFrame()
-{
-    uint16_t* temp = m_display_frame;
-    m_display_frame = m_curr_frame;
-    m_curr_frame = temp;
-    
-    spiCommand({ 0x2A, 0, 4 }, &LCD::size_W[0]);
-    spiCommand({ 0x2B, 0, 4 }, &LCD::size_H[0]);
-    spiCommand({ 0x2C, 0, LCD::FRAME_SIZE_BYTES}, reinterpret_cast<const uint8_t*>(m_display_frame));
-}
-
-void PerifLCD::drawPixel(int x, int y, uint16_t color)
-{
-    if(x >= LCD::WIDTH || y >= LCD::HEIGHT) return;
-    *(m_curr_frame + x + y * LCD::WIDTH) = color;
 }
 
 void PerifLCD::irqHandler()

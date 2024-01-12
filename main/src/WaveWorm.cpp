@@ -13,14 +13,21 @@ int main(void)
     SDRAM::sdramInit();
 
     auto& lcd = D::getLCD();
-    auto& usart = D::getUSART1();
+    // auto& usart = D::getUSART1();
 
     GraphicsEngine engine{std::bind(&PerifLCD::drawPixel, lcd,
                           std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
                           LCD::WIDTH, LCD::HEIGHT};
     
-    engine.fillScreen(LCD::Color::BLACK);
+    engine.fillScreen(LCDC::BLACK);
     
+    // Test section
+
+    engine.drawLine(50, 50, 150, 150, LCDC::WHITE);
+    engine.drawCircle(100, 100, 50, LCDC::WHITE);
+    engine.fillRect(75, 85, 60, 40, LCDC::BLUE);
+    engine.fillCircle(200, 200, 90, LCDC::CYAN);
+
     lcd.showFrame();
 
     while(1);

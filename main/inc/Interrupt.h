@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PerifBase.h"
 
 
@@ -6,7 +8,7 @@ namespace ISR
     inline constexpr int ADC1_NDX   = 0;
     inline constexpr int USART1_NDX = 1;
 
-    struct IRQDescriptor
+    inline static struct IRQDescriptor
     {
         PerifBase* instance = nullptr;
         int irq_type{0};

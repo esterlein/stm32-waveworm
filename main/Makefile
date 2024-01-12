@@ -3,7 +3,7 @@ SRC_DIR          = src
 INC_DIR          = inc
 OPENCM3_DIR      = ../libopencm3
 
-BINARY = WaveWorm
+BINARY           = WaveWorm
 
 # target device
 LIBNAME          = opencm3_stm32f4
@@ -101,52 +101,52 @@ GENERATED_BINARIES = $(BINARY).elf $(BINARY).bin $(BINARY).map
 
 $(OPENCM3_DIR)/lib/lib$(LIBNAME).a:
 ifeq (,$(wildcard $@))
-    $(warning $(LIBNAME).a not found, attempting to rebuild in $(OPENCM3_DIR))
-    $(MAKE) -C $(OPENCM3_DIR)
+	$(warning $(LIBNAME).a not found, attempting to rebuild in $(OPENCM3_DIR))
+	$(MAKE) -C $(OPENCM3_DIR)
 endif
 
 %.bin: %.elf
-    $(OBJCOPY) -Obinary $(*).elf $(*).bin
+	$(OBJCOPY) -Obinary $(*).elf $(*).bin
 
 %.elf %.map: $(OBJS) $(LDSCRIPT)
-    $(LD) $(TGT_LDFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(*).elf
+	$(LD) $(TGT_LDFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(*).elf
 
 %.o: %.c
-    $(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).c
+	$(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).c
 
 %.o: %.cxx
-    $(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cxx
+	$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cxx
 
 %.o: %.cpp
-    $(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cpp
+	$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cpp
 
 %.size: %.elf
-    @echo "Output code size:"
-    @$(SIZE) -A -d $(*).elf | egrep 'text|data|bss' | awk ' \
-    function human_readable_size(x){ \
-        if(x < 1000){ return x }else{ x /= 1024 } \
-        s="kMGTEPZY"; \
-        while(x >= 1000 && length(s) > 1) \
-            { x /= 1024; s = substr(s, 2)} \
-        return int(x + 0.5) substr(s, 1, 1) \
-    } \
-    { printf("%10s %8s\n", $$1, human_readable_size($$2)) } \
+	@echo "Output code size:"
+	@$(SIZE) -A -d $(*).elf | egrep 'text|data|bss' | awk ' \
+	function human_readable_size(x){ \
+		if(x < 1000){ return x }else{ x /= 1024 } \
+		s="kMGTEPZY"; \
+		while(x >= 1000 && length(s) > 1) \
+			{ x /= 1024; s = substr(s, 2)} \
+		return int(x + 0.5) substr(s, 1, 1) \
+	} \
+	{ printf("%10s %8s\n", $$1, human_readable_size($$2)) } \
 '
 
 %.flash: %.elf
-    @printf "  FLASH   $<\n"
-    (echo "halt; program $(realpath $(*).elf) verify reset" | nc -4 localhost 4444 2>/dev/null) || \
-        $(OOCD) -f interface/$(OOCD_INTERFACE).cfg \
-        -f target/$(OOCD_TARGET).cfg \
-        -c "program $(*).elf verify reset exit" \
-        $(NULL)
+	@printf "  FLASH   $<\n"
+	(echo "halt; program $(realpath $(*).elf) verify reset" | nc -4 localhost 4444 2>/dev/null) || \
+		$(OOCD) -f interface/$(OOCD_INTERFACE).cfg \
+		-f target/$(OOCD_TARGET).cfg \
+		-c "program $(*).elf verify reset exit" \
+		$(NULL)
 
 %.stlink-flash: %.bin
-    @printf "  FLASH  $<\n"
-    $(STFLASH) write $(*).bin 0x8000000
+	@printf "  FLASH  $<\n"
+	$(STFLASH) write $(*).bin 0x8000000
 
 clean:
-    $(RM) $(GENERATED_BINARIES) generated.* $(OBJS) $(OBJS:%.o=%.d)
+	$(RM) $(GENERATED_BINARIES) generated.* $(OBJS) $(OBJS:%.o=%.d)
 
 .PHONY: images clean elf bin hex srec list
 
