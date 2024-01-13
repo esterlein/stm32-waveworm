@@ -4,16 +4,16 @@
 #include "SDRAM.h"
 #include "Driver.h"
 
+#include "PerifLCD.h"
 #include "GraphicsEngine.h"
 
 
-int main(void)
+int main()
 {
     CLOCK::clockInit();
     SDRAM::sdramInit();
 
     auto& lcd = D::getLCD();
-    // auto& usart = D::getUSART1();
 
     GraphicsEngine engine{std::bind(&PerifLCD::drawPixel, lcd,
                           std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
