@@ -1,3 +1,5 @@
+#pragma once
+
 class PerifLCD;
 class PerifADC;
 class PerifConsole;

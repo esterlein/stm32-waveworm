@@ -19,7 +19,7 @@ void GraphicsEngine::fillScreen(uint16_t color)
     fillRect(0, 0, m_width, m_height, color);
 }
 
-void GraphicsEngine::drawPixel(int x, int y, uint16_t color)
+void GraphicsEngine::putPixel(int x, int y, uint16_t color)
 {
     if(x < 0 || x >= m_width || y < 0 || y >= m_height) return;
     
@@ -44,9 +44,9 @@ void GraphicsEngine::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, ui
 
     for(; x0 <= x1; ++x0) {
         if(steep)
-            drawPixel(y0, x0, color);
+            putPixel(y0, x0, color);
         else
-            drawPixel(x0, y0, color);
+            putPixel(x0, y0, color);
 
         err -= dy;
         if(err < 0) {
@@ -82,10 +82,10 @@ void GraphicsEngine::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16
 
 void GraphicsEngine::drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
 {
-    drawPixel(x0    , y0 + r, color);
-    drawPixel(x0    , y0 - r, color);
-    drawPixel(x0 + r, y0    , color);
-    drawPixel(x0 - r, y0    , color);
+    putPixel(x0    , y0 + r, color);
+    putPixel(x0    , y0 - r, color);
+    putPixel(x0 + r, y0    , color);
+    putPixel(x0 - r, y0    , color);
 
     int16_t x = 0, y = r;
     int16_t decision = 1 - r;
@@ -99,14 +99,14 @@ void GraphicsEngine::drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t colo
         ++x;
         decision += dec_x += 2;
 
-        drawPixel(x0 + x, y0 + y, color);
-        drawPixel(x0 - x, y0 + y, color);
-        drawPixel(x0 + x, y0 - y, color);
-        drawPixel(x0 - x, y0 - y, color);
-        drawPixel(x0 + y, y0 + x, color);
-        drawPixel(x0 - y, y0 + x, color);
-        drawPixel(x0 + y, y0 - x, color);
-        drawPixel(x0 - y, y0 - x, color);
+        putPixel(x0 + x, y0 + y, color);
+        putPixel(x0 - x, y0 + y, color);
+        putPixel(x0 + x, y0 - y, color);
+        putPixel(x0 - x, y0 - y, color);
+        putPixel(x0 + y, y0 + x, color);
+        putPixel(x0 - y, y0 + x, color);
+        putPixel(x0 + y, y0 - x, color);
+        putPixel(x0 - y, y0 - x, color);
     }
 }
 

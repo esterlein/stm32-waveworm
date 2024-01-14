@@ -5,8 +5,9 @@
 
 namespace ISR
 {
-    inline constexpr int ADC1_NDX   = 0;
-    inline constexpr int USART1_NDX = 1;
+    inline constexpr int CLOCK_NDX  = 0;
+    inline constexpr int ADC1_NDX   = 1;
+    inline constexpr int USART1_NDX = 2;
 
     inline static struct IRQDescriptor
     {
@@ -19,3 +20,4 @@ namespace ISR
 // libopencm-generated symbols should not be touched by g++
 extern "C" void adc1_isr();
 extern "C" void usart1_isr();
+extern "C" void sys_tick_handler();
