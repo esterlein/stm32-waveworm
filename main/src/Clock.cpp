@@ -31,15 +31,6 @@ Clock::Clock(std::initializer_list<rcc_periph_clken> peripherals)
         rcc_periph_clock_enable(perif);
     }
 
-    // Peripheral clock LCD & SPI
-
-    rcc_periph_clock_enable(static_cast<rcc_periph_clken>(RCC_GPIOA | RCC_GPIOC | RCC_GPIOD | RCC_GPIOF));
-    rcc_periph_clock_enable(RCC_SPI5);
-
-    // Peripheral clock ADC & USART
-
-    rcc_periph_clock_enable(RCC_ADC1);
-
     // rcc_periph_reset_pulse(RST_ADC1);
 }
 

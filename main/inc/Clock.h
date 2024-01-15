@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <initializer_list>
 
+#include <libopencm3/stm32/rcc.h>
+
 #include "IO.h"
 
 
