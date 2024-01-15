@@ -19,9 +19,8 @@ namespace IO
 {
     Clock& getClock() {
         static Clock clock(std::initializer_list<rcc_periph_clken>{
-                           static_cast<rcc_periph_clken>(
-                           RCC_GPIOA | RCC_GPIOB | RCC_GPIOC | RCC_GPIOD |
-                           RCC_GPIOE | RCC_GPIOF | RCC_GPIOG),
+                           RCC_GPIOA, RCC_GPIOB, RCC_GPIOC, RCC_GPIOD,
+                           RCC_GPIOE, RCC_GPIOF, RCC_GPIOG,
                            RCC_FSMC,
                            RCC_SPI5,
                            RCC_ADC1});
