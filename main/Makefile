@@ -24,7 +24,7 @@ OBJS            += $(SRC_DIR)/Interrupt.o
 OBJS            += $(SRC_DIR)/PerifLCD.o
 OBJS            += $(SRC_DIR)/PerifADC.o
 OBJS            += $(SRC_DIR)/PerifConsole.o
-OBJS            += $(SRC_DIR)/Driver.o
+OBJS            += $(SRC_DIR)/IO.o
 OBJS            += $(SRC_DIR)/GraphicsEngine.o
 
 OBJS            += $(SRC_DIR)/$(BINARY).o
