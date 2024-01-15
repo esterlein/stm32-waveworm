@@ -13,5 +13,5 @@ void usart1_isr()
 
 void sys_tick_handler()
 {
-    
+    ISR::clockInterruptHandler();
 }

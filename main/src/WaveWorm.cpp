@@ -1,8 +1,8 @@
 #include <cstdint>
 
+#include "IO.h"
 #include "Clock.h"
 #include "SDRAM.h"
-#include "Driver.h"
 
 #include "PerifLCD.h"
 #include "GraphicsEngine.h"
@@ -10,10 +10,11 @@
 
 int main()
 {
-    CLOCK::clockInit();
+    auto& clock = IO::getClock();
+    
     SDRAM::sdramInit();
 
-    auto& lcd = D::getLCD();
+    auto& lcd = IO::getLCD();
 
     GraphicsEngine engine{std::bind(&PerifLCD::drawPixel, lcd,
                           std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),

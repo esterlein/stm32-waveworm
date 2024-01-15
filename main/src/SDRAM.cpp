@@ -1,5 +1,4 @@
 #include <libopencm3/stm32/gpio.h>
-#include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/fsmc.h>
 
 #include "Clock.h"
@@ -37,20 +36,11 @@ namespace SDRAM
 
 void SDRAM::sdramInit()
 {
-    rcc_periph_clock_enable(RCC_GPIOB);
-    rcc_periph_clock_enable(RCC_GPIOC);
-    rcc_periph_clock_enable(RCC_GPIOD);
-    rcc_periph_clock_enable(RCC_GPIOE);
-    rcc_periph_clock_enable(RCC_GPIOF);
-    rcc_periph_clock_enable(RCC_GPIOG);
-
     for(auto gpio : sdram_pins) {
         gpio_mode_setup(gpio.port, GPIO_MODE_AF, GPIO_PUPD_NONE, gpio.pins);
         gpio_set_output_options(gpio.port, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, gpio.pins);
         gpio_set_af(gpio.port, GPIO_AF12, gpio.pins);
     }
-
-    rcc_periph_clock_enable(RCC_FSMC);
 
     uint32_t ctrl_reg, timg_reg;
 
@@ -71,17 +61,20 @@ void SDRAM::sdramInit()
 
     sdram_command(SDRAM_BANK2, SDRAM_CLK_CONF, 1, 0);
 
-    CLOCK::msleep(1);
+    Clock::msleep(1);
 
     sdram_command(SDRAM_BANK2, SDRAM_PALL, 1, 0);
     sdram_command(SDRAM_BANK2, SDRAM_AUTO_REFRESH, 4, 0);
+    
     timg_reg = SDRAM_MODE_BURST_LENGTH_2            |
                 SDRAM_MODE_BURST_TYPE_SEQUENTIAL    |
                 SDRAM_MODE_CAS_LATENCY_3            |
                 SDRAM_MODE_OPERATING_MODE_STANDARD  |
                 SDRAM_MODE_WRITEBURST_MODE_SINGLE;
+
     sdram_command(SDRAM_BANK2, SDRAM_LOAD_MODE, 1, timg_reg);
 
     // Set the refresh timer register	
+
     FMC_SDRTR = 0x000002AB;
 }

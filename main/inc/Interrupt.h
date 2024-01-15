@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "PerifBase.h"
 
 
@@ -14,9 +16,12 @@ namespace ISR
         int irq_type{0};
     }
     irq_array[16];
+
+    std::function<void()> clockInterruptHandler;
 }
 
 // libopencm-generated symbols should not be touched by g++
+
 extern "C" void adc1_isr();
 extern "C" void usart1_isr();
 extern "C" void sys_tick_handler();

@@ -14,10 +14,7 @@ PerifADC::PerifADC(uint32_t port, uint32_t pins, uint32_t adc)
 
     gpio_mode_setup(port, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, pins);
     
-    /*rcc_periph_clock_enable(RCC_ADC1);
-    rcc_periph_clock_enable(RCC_GPIOA);
-    rcc_periph_reset_pulse(RST_ADC1);
-
+    /*
     adc_disable_scan_mode(m_ADC);
     adc_set_right_aligned(m_ADC);
 
