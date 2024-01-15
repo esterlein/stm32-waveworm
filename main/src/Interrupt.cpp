@@ -10,3 +10,8 @@ void usart1_isr()
 {
     ISR::irq_array[ISR::USART1_NDX].instance->irqHandler();
 }
+
+void sys_tick_handler()
+{
+    
+}

@@ -5,9 +5,8 @@
 
 namespace ISR
 {
-    inline constexpr int CLOCK_NDX  = 0;
-    inline constexpr int ADC1_NDX   = 1;
-    inline constexpr int USART1_NDX = 2;
+    inline constexpr int ADC1_NDX   = 0;
+    inline constexpr int USART1_NDX = 1;
 
     inline static struct IRQDescriptor
     {

@@ -67,8 +67,6 @@ PerifLCD::PerifLCD()
     : m_curr_frame{nullptr}
     , m_display_frame{nullptr}
 {
-    rcc_periph_clock_enable(static_cast<rcc_periph_clken>(RCC_GPIOC | RCC_GPIOD | RCC_GPIOF));
-
     gpio_mode_setup(GPIOC, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO2);
     gpio_mode_setup(GPIOD, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO13);
 
@@ -77,8 +75,6 @@ PerifLCD::PerifLCD()
 
     m_curr_frame = reinterpret_cast<uint16_t*>(SDRAM_BASE_ADDRESS);
     m_display_frame = m_curr_frame + LCD::FRAME_SIZE;
-
-    rcc_periph_clock_enable(RCC_SPI5);
     
     spi_init_master(LCD_INIT::SPI, SPI_CR1_BAUDRATE_FPCLK_DIV_4,
                     SPI_CR1_CPOL_CLK_TO_0_WHEN_IDLE,
@@ -120,7 +116,7 @@ void PerifLCD::spiCommand(const LCD::Command& command, const uint8_t* args)
     gpio_clear(GPIOD, GPIO13);
     
     if(command.delay) {
-        CLOCK::msleep(command.delay);
+        Clock::msleep(command.delay);
     }
 }
 

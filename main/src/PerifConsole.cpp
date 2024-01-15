@@ -18,8 +18,6 @@ PerifConsole::PerifConsole(uint32_t port, uint32_t pins, uint32_t usart, uint32_
     , m_recv_Curr{0}
     , m_recv_Next{0}
 {
-    rcc_periph_clock_enable(RCC_GPIOA);
-
     gpio_mode_setup(port, GPIO_MODE_AF, GPIO_PUPD_NONE, pins);
     gpio_set_af(port, GPIO_AF7, pins);
 
