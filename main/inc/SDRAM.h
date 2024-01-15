@@ -7,5 +7,5 @@
 
 namespace SDRAM
 {
-    void sdramInit();
+    void initSDRAM();
 }

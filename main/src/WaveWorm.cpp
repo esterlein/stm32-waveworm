@@ -12,7 +12,7 @@ int main()
 {
     auto& clock = IO::getClock();
     
-    SDRAM::sdramInit();
+    SDRAM::initSDRAM();
 
     auto& lcd = IO::getLCD();
 

@@ -8,11 +8,11 @@ class PerifConsole;
 
 namespace IO
 {
-    inline Clock& getClock();
+    Clock& getClock();
 
-    inline PerifLCD& getLCD();
+    PerifLCD& getLCD();
     
-    inline PerifADC& getADC1();
+    PerifADC& getADC1();
     
-    inline PerifConsole& getUSART1();
+    PerifConsole& getUSART1();
 }

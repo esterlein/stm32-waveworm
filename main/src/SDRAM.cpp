@@ -34,7 +34,7 @@ namespace SDRAM
     };
 }
 
-void SDRAM::sdramInit()
+void SDRAM::initSDRAM()
 {
     for(auto gpio : sdram_pins) {
         gpio_mode_setup(gpio.port, GPIO_MODE_AF, GPIO_PUPD_NONE, gpio.pins);
