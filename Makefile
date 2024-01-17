@@ -31,17 +31,6 @@ TYPE_SRCS       += $(wildcard $(TYPE_SRC_DIR)/*.cpp)
 OBJS            += $(patsubst $(MAIN_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(MAIN_SRCS))
 OBJS            += $(patsubst $(TYPE_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(TYPE_SRCS))
 
-# OBJS            += $(BLD_DIR)/Clock.o
-# OBJS            += $(BLD_DIR)/SDRAM.o
-# OBJS            += $(BLD_DIR)/Interrupt.o
-# OBJS            += $(BLD_DIR)/PerifLCD.o
-# OBJS            += $(BLD_DIR)/PerifADC.o
-# OBJS            += $(BLD_DIR)/PerifConsole.o
-# OBJS            += $(BLD_DIR)/IO.o
-# OBJS            += $(BLD_DIR)/GraphicsEngine.o
-
-# OBJS            += $(BLD_DIR)/$(BINARY).o
-
 # libraries
 DEFS            += -I$(OPENCM3_DIR)/include
 LDFLAGS         += -L$(OPENCM3_DIR)/lib
