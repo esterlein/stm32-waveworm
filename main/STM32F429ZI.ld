@@ -5,4 +5,4 @@ MEMORY
     ram (rwx) : ORIGIN = 0x20000000, LENGTH = 192K
 }
 
-INCLUDE cortex-m-generic.ld
+INCLUDE Cortex-M.ld

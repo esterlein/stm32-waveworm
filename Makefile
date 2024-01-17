@@ -1,7 +1,12 @@
 # project structure
-SRC_DIR          = src
-INC_DIR          = inc
-OPENCM3_DIR      = ../libopencm3
+MAIN_SRC_DIR     = main/src
+TYPE_SRC_DIR     = datatype/src
+MAIN_INC_DIR     = main/inc
+TYPE_INC_DIR     = datatype/inc
+
+BLD_DIR          = ../build
+
+OPENCM3_DIR      = libopencm3
 
 BINARY           = WaveWorm
 
@@ -12,23 +17,30 @@ FP_FLAGS        ?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
 ARCH_FLAGS       = -mthumb -mcpu=cortex-m4 $(FP_FLAGS)
 
 # linker script
-LDSCRIPT         = STM32F429ZI.ld
+LDSCRIPT         = main/STM32F429ZI.ld
 
 # include files
-DEFS            += -I$(INC_DIR)
+DEFS            += -I$(MAIN_INC_DIR)
+DEFS            += -I$(TYPE_INC_DIR)
 
 # source files
-OBJS            += $(SRC_DIR)/Clock.o
-OBJS            += $(SRC_DIR)/SDRAM.o
-OBJS            += $(SRC_DIR)/Interrupt.o
-OBJS            += $(SRC_DIR)/PerifLCD.o
-OBJS            += $(SRC_DIR)/PerifADC.o
-OBJS            += $(SRC_DIR)/PerifConsole.o
-OBJS            += $(SRC_DIR)/IO.o
-OBJS            += $(SRC_DIR)/GraphicsEngine.o
+MAIN_SRCS       += $(wildcard $(MAIN_SRC_DIR)/*.cpp)
+TYPE_SRCS       += $(wildcard $(TYPE_SRC_DIR)/*.cpp)
 
-OBJS            += $(SRC_DIR)/$(BINARY).o
+# object files
+OBJS            += $(patsubst $(MAIN_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(MAIN_SRCS))
+OBJS            += $(patsubst $(TYPE_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(TYPE_SRCS))
 
+# OBJS            += $(BLD_DIR)/Clock.o
+# OBJS            += $(BLD_DIR)/SDRAM.o
+# OBJS            += $(BLD_DIR)/Interrupt.o
+# OBJS            += $(BLD_DIR)/PerifLCD.o
+# OBJS            += $(BLD_DIR)/PerifADC.o
+# OBJS            += $(BLD_DIR)/PerifConsole.o
+# OBJS            += $(BLD_DIR)/IO.o
+# OBJS            += $(BLD_DIR)/GraphicsEngine.o
+
+# OBJS            += $(BLD_DIR)/$(BINARY).o
 
 # libraries
 DEFS            += -I$(OPENCM3_DIR)/include
@@ -91,7 +103,7 @@ OOCD_TARGET     ?= stm32f4x
 .SECONDEXPANSION:
 .SECONDARY:
 
-all: clean elf size
+all: dir clean elf size
 size: $(BINARY).size
 elf: $(BINARY).elf
 bin: $(BINARY).bin
@@ -145,9 +157,14 @@ endif
 	@printf "  FLASH  $<\n"
 	$(STFLASH) write $(*).bin 0x8000000
 
+dir:
+	mkdir -p $(BLD_DIR)
+
 clean:
 	$(RM) $(GENERATED_BINARIES) generated.* $(OBJS) $(OBJS:%.o=%.d)
 
-.PHONY: images clean elf bin hex srec list
+print: ; @echo $(MAIN_SRCS) $(TYPE_SRCS) $(DEFS) $(OBJS)
+
+.PHONY: dir clean elf bin
 
 -include $(OBJS:.o=.d)

@@ -4,6 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/main/inc",
+                "${workspaceFolder}/datatype/inc",
                 "${workspaceFolder}/libopencm3/include"
             ],
             "defines": [
