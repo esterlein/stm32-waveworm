@@ -1,129 +1,95 @@
-# project structure
-MAIN_SRC_DIR     = main/src
-TYPE_SRC_DIR     = datatype/src
-MAIN_INC_DIR     = main/inc
-TYPE_INC_DIR     = datatype/inc
+main_src_dir     = main/src
+type_src_dir     = datatype/src
+main_inc_dir     = main/include
+type_inc_dir     = datatype/include
 
-BLD_DIR          = ../build
+bin_dir          = ../bin
 
-OPENCM3_DIR      = libopencm3
+opencm3_dir      = libopencm3
 
-BINARY           = WaveWorm
+binary           = WaveWorm
 
-# target device
-LIBNAME          = opencm3_stm32f4
-DEFS            += -DSTM32F4
-FP_FLAGS        ?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
-ARCH_FLAGS       = -mthumb -mcpu=cortex-m4 $(FP_FLAGS)
+sources         += $(wildcard $(main_src_dir)/*.cpp)
+objects         += $(patsubst $(main_src_dir)/%.cpp, $(bin_dir)/%.o, $(sources))
+deps            := $(objects:.o=.d)
 
-# linker script
-LDSCRIPT         = main/STM32F429ZI.ld
+includes        += -I$(opencm3_dir)/include
+includes        += -I$(main_inc_dir)
 
-# include files
-DEFS            += -I$(MAIN_INC_DIR)
-DEFS            += -I$(TYPE_INC_DIR)
+ldscript         = main/STM32F429ZI.ld
 
-# source files
-MAIN_SRCS       += $(wildcard $(MAIN_SRC_DIR)/*.cpp)
-TYPE_SRCS       += $(wildcard $(TYPE_SRC_DIR)/*.cpp)
+libname          = opencm3_stm32f4
+ldflags         += -L$(opencm3_dir)/lib
 
-# object files
-OBJS            += $(patsubst $(MAIN_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(MAIN_SRCS))
-OBJS            += $(patsubst $(TYPE_SRC_DIR)/%.cpp, $(BLD_DIR)/%.o, $(TYPE_SRCS))
+gcc_prefix      ?= arm-none-eabi
+cxx             := $(gcc_prefix)-g++
+ld              := $(gcc_prefix)-g++
+size            := $(gcc_prefix)-size
+objcopy         := $(gcc_prefix)-objcopy
 
-# libraries
-DEFS            += -I$(OPENCM3_DIR)/include
-LDFLAGS         += -L$(OPENCM3_DIR)/lib
-LDLIBS          += -l$(LIBNAME)
-LDLIBS          += --specs=rdimon.specs
-LDLIBS          += -Wl,--start-group -lc -lgcc -lnosys -lrdimon -Wl,--end-group
-LDLIBS          += -lm -lstdc++
+opt             := -Os -O2
+debug           := -ggdb3
+cxxstd          ?= -std=c++20
+stflash          = $(shell which st-flash)
 
-# compiler config
-PREFIX          ?= arm-none-eabi
-CC              := $(PREFIX)-gcc
-CXX             := $(PREFIX)-g++
-LD              := $(PREFIX)-gcc
-AR              := $(PREFIX)-ar
-AS              := $(PREFIX)-as
-SIZE            := $(PREFIX)-size
-OBJCOPY         := $(PREFIX)-objcopy
-OBJDUMP         := $(PREFIX)-objdump
-GDB             := $(PREFIX)-gdb
-OPT             := -Os
-DEBUG           := -ggdb3
-CSTD            ?= -std=c99
-STFLASH          = $(shell which st-flash)
+device          += -DSTM32F4
+flptflags       ?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
+archflags        = -mthumb -mcpu=cortex-m4 $(flptflags)
 
-# linker config
-TGT_LDFLAGS     += --static
-TGT_LDFLAGS     += -T$(LDSCRIPT)
-TGT_LDFLAGS     += $(ARCH_FLAGS) $(DEBUG)
-TGT_LDFLAGS     += -Wl,-Map=$(*).map -Wl,--cref
-TGT_LDFLAGS     += -Wl,--gc-sections
-TGT_LDFLAGS     += -Wl,--print-gc-sections
+ppflags         += -MD
+ppflags         += -Wall -Wundef
+ppflags         += $(device)
+ppflags         += $(includes)
 
-# C flags
-TGT_CFLAGS      += $(OPT) $(CSTD) $(DEBUG)
-TGT_CFLAGS      += $(ARCH_FLAGS)
-TGT_CFLAGS      += -Wextra -Wshadow -Wimplicit-function-declaration
-TGT_CFLAGS      += -Wredundant-decls -Wmissing-prototypes -Wstrict-prototypes
-TGT_CFLAGS      += -fno-common -ffunction-sections -fdata-sections
+cxxflags        += $(opt) $(debug) $(cxxstd)
+cxxflags        += $(archflags)
+cxxflags        += -Wextra -Wshadow -Wredundant-decls -Weffc++
+cxxflags        += -fno-common -ffunction-sections -fdata-sections
 
-# C++ flags
-TGT_CXXFLAGS    += $(OPT) $(CXXSTD) $(DEBUG)
-TGT_CXXFLAGS    += $(ARCH_FLAGS)
-TGT_CXXFLAGS    += -Wextra -Wshadow -Wredundant-decls -Weffc++
-TGT_CXXFLAGS    += -fno-common -ffunction-sections -fdata-sections
-TGT_CXXFLAGS    += -std=c++20
+ldflags         += --static
+ldflags         += -T$(ldscript)
+ldflags         += $(archflags) $(debug)
+ldflags         += -Wl,-Map=$(*).map -Wl,--cref
+ldflags         += -Wl,--gc-sections
+ldflags         += -Wl,--print-gc-sections
 
-# preprocessor flags
-TGT_CPPFLAGS    += -MD
-TGT_CPPFLAGS    += -Wall -Wundef
-TGT_CPPFLAGS    += $(DEFS)
+ldlibs          += -l$(libname)
+ldlibs          += --specs=rdimon.specs
+ldlibs          += -Wl,--start-group -lc -lgcc -lnosys -lrdimon -Wl,--end-group
+ldlibs          += -lm -lstdc++
 
-# openocd variables
-OOCD            ?= openocd
-OOCD_INTERFACE  ?= stlink-v2
-OOCD_TARGET     ?= stm32f4x
-
-# translation targets
-.SUFFIXES: .elf .bin .map
-.SECONDEXPANSION:
-.SECONDARY:
+oocd            ?= openocd
+oocd_interface  ?= stlink-v2
+oocd_target     ?= stm32f4x
 
 all: dir clean elf size
-size: $(BINARY).size
-elf: $(BINARY).elf
-bin: $(BINARY).bin
-flash: $(BINARY).flash
+size: $(bin_dir)/$(binary).size
+elf: $(bin_dir)/$(binary).elf
+bin: $(bin_dir)/$(binary).bin
+flash: $(bin_dir)/$(binary).flash
 
-GENERATED_BINARIES = $(BINARY).elf $(BINARY).bin $(BINARY).map
+generated_binaries += $(bin_dir)/$(binary).elf
+generated_binaries += $(bin_dir)/$(binary).map
+generated_binaries += $(bin_dir)/$(binary).bin
 
-$(OPENCM3_DIR)/lib/lib$(LIBNAME).a:
-ifeq (,$(wildcard $@))
-	$(warning $(LIBNAME).a not found, attempting to rebuild in $(OPENCM3_DIR))
-	$(MAKE) -C $(OPENCM3_DIR)
+$(opencm3_dir)/lib/lib$(libname).a:
+ifeq (, $(wildcard $@))
+	$(warning $(libname).a not found, attempting to rebuild in $(opencm3_dir))
+	$(MAKE) -C $(opencm3_dir)
 endif
 
 %.bin: %.elf
-	$(OBJCOPY) -Obinary $(*).elf $(*).bin
+	$(objcopy) -Obinary $(*).elf $(*).bin
 
-%.elf %.map: $(OBJS) $(LDSCRIPT)
-	$(LD) $(TGT_LDFLAGS) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(*).elf
-
-%.o: %.c
-	$(CC) $(TGT_CFLAGS) $(CFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).c
-
-%.o: %.cxx
-	$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cxx
+%.elf %.map: $(objects) $(ldscript)
+	$(ld) $(ldflags) $(ldlibs) $(objects) -o $(*).elf
 
 %.o: %.cpp
-	$(CXX) $(TGT_CXXFLAGS) $(CXXFLAGS) $(TGT_CPPFLAGS) $(CPPFLAGS) -o $(*).o -c $(*).cpp
+	$(cxx) $(ppflags) $(cxxflags) -c -o $@ $<
 
 %.size: %.elf
 	@echo "Output code size:"
-	@$(SIZE) -A -d $(*).elf | egrep 'text|data|bss' | awk ' \
+	@$(size) -A -d $(*).elf | egrep 'text|data|bss' | awk ' \
 	function human_readable_size(x){ \
 		if(x < 1000){ return x }else{ x /= 1024 } \
 		s="kMGTEPZY"; \
@@ -135,25 +101,25 @@ endif
 '
 
 %.flash: %.elf
-	@printf "  FLASH   $<\n"
+	@printf "FLASH $<\n"
 	(echo "halt; program $(realpath $(*).elf) verify reset" | nc -4 localhost 4444 2>/dev/null) || \
-		$(OOCD) -f interface/$(OOCD_INTERFACE).cfg \
-		-f target/$(OOCD_TARGET).cfg \
+		$(oocd) -f interface/$(oocd_interface).cfg \
+		-f target/$(oocd_target).cfg \
 		-c "program $(*).elf verify reset exit" \
 		$(NULL)
 
 %.stlink-flash: %.bin
-	@printf "  FLASH  $<\n"
-	$(STFLASH) write $(*).bin 0x8000000
+	@printf "FLASH $<\n"
+	$(stflash) write $(*).bin 0x8000000
 
 dir:
-	mkdir -p $(BLD_DIR)
+	mkdir -p $(bin_dir)
 
 clean:
-	$(RM) $(GENERATED_BINARIES) generated.* $(OBJS) $(OBJS:%.o=%.d)
+	$(RM) $(generated_binaries) $(objects) $(deps)
 
-print: ; @echo $(MAIN_SRCS) $(TYPE_SRCS) $(DEFS) $(OBJS)
+print: ; @echo $(objects) $(sources)
 
-.PHONY: dir clean elf bin
+.PHONY: all dir clean elf map bin size flash stlink-flash
 
--include $(OBJS:.o=.d)
+-include $(deps)

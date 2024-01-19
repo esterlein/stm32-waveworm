@@ -3,8 +3,8 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/main/inc",
-                "${workspaceFolder}/datatype/inc",
+                "${workspaceFolder}/main/include",
+                "${workspaceFolder}/datatype/include",
                 "${workspaceFolder}/libopencm3/include"
             ],
             "defines": [
