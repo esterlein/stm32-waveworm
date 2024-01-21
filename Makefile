@@ -7,7 +7,7 @@ bin_dir          = ../bin
 
 opencm3_dir      = libopencm3
 
-binary           = WaveWorm
+binary           = waveworm
 
 sources         += $(wildcard $(main_src_dir)/*.cpp)
 objects         += $(patsubst $(main_src_dir)/%.cpp, $(bin_dir)/%.o, $(sources))
@@ -36,10 +36,10 @@ device          += -DSTM32F4
 flptflags       ?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
 archflags        = -mthumb -mcpu=cortex-m4 $(flptflags)
 
-ppflags         += -MD
-ppflags         += -Wall -Wundef
-ppflags         += $(device)
-ppflags         += $(includes)
+cppflags         += -MD
+cppflags         += -Wall -Wundef
+cppflags         += $(device)
+cppflags         += $(includes)
 
 cxxflags        += $(opt) $(debug) $(cxxstd)
 cxxflags        += $(archflags)
@@ -81,11 +81,11 @@ endif
 %.bin: %.elf
 	$(objcopy) -Obinary $(*).elf $(*).bin
 
-%.elf %.map: $(objects) $(ldscript)
-	$(ld) $(ldflags) $(ldlibs) $(objects) -o $(*).elf
+$(bin_dir)/$(binary).elf $(bin_dir)/$(binary).map: $(objects) $(ldscript)
+	$(ld) $(ldflags) $(ldlibs) $(objects) -o $@
 
-%.o: %.cpp
-	$(cxx) $(ppflags) $(cxxflags) -c -o $@ $<
+$(objects): $(bin_dir)/%.o: $(main_src_dir)/%.cpp
+	$(cxx) $(cppflags) $(cxxflags) -o $@ -c $^
 
 %.size: %.elf
 	@echo "Output code size:"
