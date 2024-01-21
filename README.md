@@ -22,7 +22,7 @@ git submodule init
 git submodule update
 cd libopencm3
 make
-cd ../main
+cd ..
 make all
 make flash
 ```
