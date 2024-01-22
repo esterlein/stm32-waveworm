@@ -1,5 +1,5 @@
-main_src_dir     = main/src
-type_src_dir     = datatype/src
+src_dirs         = main/src datatype/src
+
 main_inc_dir     = main/include
 type_inc_dir     = datatype/include
 
@@ -7,19 +7,19 @@ bin_dir          = ../bin
 
 opencm3_dir      = libopencm3
 
-binary           = waveworm
-
-sources         += $(wildcard $(main_src_dir)/*.cpp)
-objects         += $(patsubst $(main_src_dir)/%.cpp, $(bin_dir)/%.o, $(sources))
+binary          := waveworm
+objects         := $(foreach dir, $(src_dirs), $(patsubst $(dir)/%.cpp, $(bin_dir)/%.o, $(wildcard $(dir)/*.cpp)))
 deps            := $(objects:.o=.d)
+
+vpath %.cpp $(src_dirs)
 
 includes        += -I$(opencm3_dir)/include
 includes        += -I$(main_inc_dir)
+includes        += -I$(type_inc_dir)
 
 ldscript         = main/STM32F429ZI.ld
 
 libname          = opencm3_stm32f4
-ldflags         += -L$(opencm3_dir)/lib
 
 gcc_prefix      ?= arm-none-eabi
 cxx             := $(gcc_prefix)-g++
@@ -49,9 +49,11 @@ cxxflags        += -fno-common -ffunction-sections -fdata-sections
 ldflags         += --static
 ldflags         += -T$(ldscript)
 ldflags         += $(archflags) $(debug)
-ldflags         += -Wl,-Map=$(*).map -Wl,--cref
+ldflags         += -Wl,-Map=$(bin_dir)/$(binary).map -Wl,--cref
 ldflags         += -Wl,--gc-sections
 ldflags         += -Wl,--print-gc-sections
+
+ldflags         += -L$(opencm3_dir)/lib
 
 ldlibs          += -l$(libname)
 ldlibs          += --specs=rdimon.specs
@@ -81,10 +83,10 @@ endif
 %.bin: %.elf
 	$(objcopy) -Obinary $(*).elf $(*).bin
 
-$(bin_dir)/$(binary).elf $(bin_dir)/$(binary).map: $(objects) $(ldscript)
-	$(ld) $(ldflags) $(ldlibs) $(objects) -o $@
+$(bin_dir)/$(binary).elf: $(objects) $(ldscript)
+	$(ld) $(ldflags) $(objects) $(ldlibs) -o $@
 
-$(objects): $(bin_dir)/%.o: $(main_src_dir)/%.cpp
+$(objects): $(bin_dir)/%.o: %.cpp
 	$(cxx) $(cppflags) $(cxxflags) -o $@ -c $^
 
 %.size: %.elf
@@ -108,18 +110,15 @@ $(objects): $(bin_dir)/%.o: $(main_src_dir)/%.cpp
 		-c "program $(*).elf verify reset exit" \
 		$(NULL)
 
-%.stlink-flash: %.bin
-	@printf "FLASH $<\n"
-	$(stflash) write $(*).bin 0x8000000
-
 dir:
 	mkdir -p $(bin_dir)
 
 clean:
 	$(RM) $(generated_binaries) $(objects) $(deps)
 
-print: ; @echo $(objects) $(sources)
+print:
+	@echo $(objects)
 
-.PHONY: all dir clean elf map bin size flash stlink-flash
+.PHONY: all dir clean elf map bin size flash print
 
 -include $(deps)
