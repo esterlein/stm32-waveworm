@@ -1,6 +1,7 @@
-src_dirs         = main/src datatype/src
+src_dirs         = main/src math/src datatype/src
 
 main_inc_dir     = main/include
+math_inc_dir     = math/include
 type_inc_dir     = datatype/include
 
 bin_dir          = ../bin
@@ -15,6 +16,7 @@ vpath %.cpp $(src_dirs)
 
 includes        += -I$(opencm3_dir)/include
 includes        += -I$(main_inc_dir)
+includes        += -I$(math_inc_dir)
 includes        += -I$(type_inc_dir)
 
 ldscript         = main/STM32F429ZI.ld

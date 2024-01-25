@@ -4,6 +4,7 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/main/include",
+                "${workspaceFolder}/math/include",
                 "${workspaceFolder}/datatype/include",
                 "${workspaceFolder}/libopencm3/include"
             ],

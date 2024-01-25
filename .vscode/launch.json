@@ -4,7 +4,7 @@
         {
             "name": "OpenOCD Cortex Debug",
             "cwd": "${workspaceFolder}",
-            "executable": "${workspaceFolder}/../build/WaveWorm.elf",
+            "executable": "${workspaceFolder}/../build/waveworm.elf",
             "request": "launch",
             "type": "cortex-debug",
             "runToEntryPoint": "main",
