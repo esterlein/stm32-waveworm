@@ -3,9 +3,9 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/platform/include",
-                "${workspaceFolder}/math/include",
-                "${workspaceFolder}/datatype/include",
+                "${workspaceFolder}/platform",
+                "${workspaceFolder}/math",
+                "${workspaceFolder}/datatype",
                 "${workspaceFolder}/libopencm3/include"
             ],
             "defines": [

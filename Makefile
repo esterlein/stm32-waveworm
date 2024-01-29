@@ -1,8 +1,8 @@
-src_dirs         = platform/src math/src datatype/src
+src_dirs         = platform math datatype
 
-main_inc_dir     = platform/include
-math_inc_dir     = math/include
-type_inc_dir     = datatype/include
+ptfm_inc_dir     = platform
+math_inc_dir     = math
+type_inc_dir     = datatype
 
 bin_dir          = ../bin
 
@@ -15,7 +15,7 @@ deps            := $(objects:.o=.d)
 vpath %.cpp $(src_dirs)
 
 includes        += -I$(opencm3_dir)/include
-includes        += -I$(main_inc_dir)
+includes        += -I$(ptfm_inc_dir)
 includes        += -I$(math_inc_dir)
 includes        += -I$(type_inc_dir)
 
