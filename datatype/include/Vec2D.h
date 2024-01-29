@@ -117,22 +117,22 @@ public:
     bool operator<(const Vec2D<T>& other) const
     {
         return (X < other.X && !Math::equal(X, other.X)) ||
-               (Math::equal(X, other.X) && Y < other.Y && !Math::equal(Y, other.Y));
+               (Y < other.Y &&  Math::equal(X, other.X) && !Math::equal(Y, other.Y));
     }
     bool operator>(const Vec2D<T>& other) const
     {
         return (X > other.X && !Math::equal(X, other.X)) ||
-               (Math::equal(X, other.X) && Y > other.Y && !Math::equal(Y, other.Y));
+               (Y > other.Y &&  Math::equal(X, other.X) && !Math::equal(Y, other.Y));
     }
     bool operator<=(const Vec2D<T>& other) const
     {
         return (X < other.X || Math::equal(X, other.X)) ||
-               (Math::equal(X, other.X) && !Math::equal(Y, other.Y) && Y < other.Y)
+               (Y < other.Y && Math::equal(X, other.X) && !Math::equal(Y, other.Y))
     }
     bool operator>=(const Vec2D<T>&other) const
     {
-        return (X>other.X || Math::equal(X, other.X)) ||
-               (Math::equal(X, other.X) && (Y>other.Y || Math::equal(Y, other.Y)));
+        return (X > other.X || Math::equal(X, other.X)) ||
+              ((Y > other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X));
     }
     
     bool operator==(const Vec2D<T>& other) const
@@ -174,7 +174,7 @@ public:
         return Vec2D<T>(X - other.X, Y - other.Y).lengthSq();
     }
 
-    Vec2D& normalize()
+    Vec2D<T>& normalize()
     {
         const T len = this->length();
         if(len){

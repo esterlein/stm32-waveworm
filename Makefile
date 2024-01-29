@@ -1,6 +1,6 @@
-src_dirs         = main/src math/src datatype/src
+src_dirs         = platform/src math/src datatype/src
 
-main_inc_dir     = main/include
+main_inc_dir     = platform/include
 math_inc_dir     = math/include
 type_inc_dir     = datatype/include
 
@@ -19,7 +19,7 @@ includes        += -I$(main_inc_dir)
 includes        += -I$(math_inc_dir)
 includes        += -I$(type_inc_dir)
 
-ldscript         = main/STM32F429ZI.ld
+ldscript         = platform/STM32F429ZI.ld
 
 libname          = opencm3_stm32f4
 
