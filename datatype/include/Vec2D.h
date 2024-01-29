@@ -30,11 +30,11 @@ public:
         return *this;
     }
 
-    Vec2D operator+(const Vec2D<T>& other) const
+    Vec2D<T> operator+(const Vec2D<T>& other) const
     {
         return Vec2D<T>(X + other.X, Y + other.Y);
     }
-    Vec2D operator+(const T v) const
+    Vec2D<T> operator+(const T v) const
     {
         return Vec2D<T>(X + v, Y + v);
     }
@@ -55,7 +55,7 @@ public:
     {
         return Vec2D<T>(X - other.X, Y - other.Y);
     }
-    Vec2D operator-(const T v) const
+    Vec2D<T> operator-(const T v) const
     {
         return Vec2D<T>(X - v, Y - v);
     }
@@ -76,7 +76,7 @@ public:
     {
         return Vec2D<T>(X * other.X, Y * other.Y);
     }
-    Vec2D operator*(const T v) const
+    Vec2D<T> operator*(const T v) const
     {
         return Vec2D<T>(X * v, Y * v);
     }
@@ -97,7 +97,7 @@ public:
     {
         return Vec2D<T>(X / other.X, Y / other.Y);
     }
-    Vec2D operator/(const T v) const
+    Vec2D<T> operator/(const T v) const
     {
         return Vec2D<T>(X / v, Y / v);
     }
@@ -144,23 +144,44 @@ public:
         return !this->equal(other);
     }
 
-    Vec2D<T>& set(T, x, T y)
+    Vec2D<T>& set(T x, T y)
     {
         X = x;
         Y = y;
         return *this;
     }
+
     T length() const
     {
         return std::sqrt(X * X + Y * Y);
     }
+    T lengthSq() const
+    {
+        return X * X + Y * Y;
+    }
+
     T dot(const Vec2D<T>& other) const
     {
         return X * other.X + Y * other.Y;
     }
+
     T distance(const Vec2D<T>& other) const
     {
         return Vec2D<T>(X - other.X, Y - other.Y).length();
+    }
+    T distanceSq(const Vec2D<T>& other) const
+    {
+        return Vec2D<T>(X - other.X, Y - other.Y).lengthSq();
+    }
+
+    Vec2D& normalize()
+    {
+        const T len = this->length();
+        if(len){
+            X /= len;
+            Y /= len;
+        }
+        return *this;
     }
 
 private:
