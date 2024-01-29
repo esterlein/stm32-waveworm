@@ -1,9 +1,14 @@
+#include <cmath>
+#include <limits>
+
 #include "MathDefs.h"
+
 
 namespace Math
 {
-    constexpr bool equals(const float a, const float b, const float tolerance = RoundErrFloat)
-    {
-        return (a + tolerance >= b) && (a - tolerance <= b);
+    template<typename T>
+    constexpr bool equal(T a, T b)
+    { 
+        return std::abs(a - b) <= std::numeric_limits<T>::epsilon() * std::max(std::abs(a), std::abs(b));
     }
 }
