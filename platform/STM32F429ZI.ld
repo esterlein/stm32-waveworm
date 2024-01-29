@@ -5,4 +5,4 @@ MEMORY
 	ram (rwx) : ORIGIN = 0x20000000, LENGTH = 192K
 }
 
-INCLUDE main/Cortex-M.ld
+INCLUDE platform/Cortex-M.ld

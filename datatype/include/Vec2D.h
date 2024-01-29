@@ -127,7 +127,7 @@ public:
     bool operator<=(const Vec2D<T>& other) const
     {
         return (X < other.X || Math::equal(X, other.X)) ||
-               (Y < other.Y && Math::equal(X, other.X) && !Math::equal(Y, other.Y))
+               (Y < other.Y && Math::equal(X, other.X) && !Math::equal(Y, other.Y));
     }
     bool operator>=(const Vec2D<T>&other) const
     {

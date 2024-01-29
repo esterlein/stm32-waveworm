@@ -14,7 +14,7 @@ public:
     T Z;
 
     Vec3D() : X{0}, Y{0}, Z{0} {}
-    Vec3D(T x, T y) : X{x}, Y{y}, Z{z} {}
+    Vec3D(T x, T y, T z) : X{x}, Y{y}, Z{z} {}
     explicit Vec3D(T n) : X{n}, Y{n}, Z{n} {}
 
     Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
