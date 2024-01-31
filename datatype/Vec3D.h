@@ -17,12 +17,9 @@ public:
     Vec3D(T x, T y, T z) : X{x}, Y{y}, Z{z} {}
     explicit Vec3D(T n) : X{n}, Y{n}, Z{n} {}
 
-    Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
+    ~Vec3D() = default;
 
-    Vec3D<T> operator-() const
-    {
-        return Vec3D<T>(-X, -Y, -Z);
-    }
+    Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
 
     Vec3D<T>& operator=(const Vec3D<T>& other)
     {
@@ -30,6 +27,31 @@ public:
         Y = other.Y;
         Z = other.Z;
         return *this;
+    }
+
+    Vec3D(Vec3D<T>&& other) : X{other.X}, Y{other.Y}, Z{other.Z}
+    {
+        other.X = 0;
+        other.Y = 0;
+        other.Z = 0;
+    }
+
+    Vec3D<T>& operator=(Vec3D<T>&& other)
+    {
+        if(this != &other){
+            X = other.X;
+            Y = other.Y;
+            Z = other.Z;
+            other.X = 0;
+            other.Y = 0;
+            other.Z = 0;
+        }
+        return *this;
+    }
+
+    Vec3D<T> operator-() const
+    {
+        return Vec3D<T>(-X, -Y, -Z);
     }
 
     Vec3D<T> operator+(const Vec3D<T>& other) const
