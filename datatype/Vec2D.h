@@ -20,17 +20,17 @@ public:
 
     Vec2D(const Vec2D<T>& other) : X{other.X}, Y{other.Y} {}
 
+    Vec2D(Vec2D<T>&& other) : X{other.X}, Y{other.Y}
+    {
+        other.X = 0;
+        other.Y = 0;
+    }
+
     Vec2D<T>& operator=(const Vec2D<T>& other)
     {
         X = other.X;
         Y = other.Y;
         return *this;
-    }
-
-    Vec2D(Vec2D<T>&& other) : X{other.X}, Y{other.Y}
-    {
-        other.X = 0;
-        other.Y = 0;
     }
 
     Vec2D<T>& operator=(Vec2D<T>&& other)
