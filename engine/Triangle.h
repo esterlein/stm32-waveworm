@@ -56,4 +56,14 @@ public:
         }
         return *this;
     }
+
+    bool operator==(const Triangle<T>& other) const
+    {
+        return A == other.A && B == other.B && C == other.C;
+    }
+
+    bool operator!=(const Triangle<T>& other) const
+    {
+        return !(*this == other);
+    }
 };

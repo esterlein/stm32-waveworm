@@ -1,8 +1,9 @@
-src_dirs         = platform math datatype
+src_dirs         = platform math datatype engine
 
 ptfm_inc_dir     = platform
 math_inc_dir     = math
 type_inc_dir     = datatype
+engn_inc_dir     = engine
 
 bin_dir          = ../bin
 
@@ -18,6 +19,7 @@ includes        += -I$(opencm3_dir)/include
 includes        += -I$(ptfm_inc_dir)
 includes        += -I$(math_inc_dir)
 includes        += -I$(type_inc_dir)
+includes        += -I$(engn_inc_dir)
 
 ldscript         = platform/STM32F429ZI.ld
 
