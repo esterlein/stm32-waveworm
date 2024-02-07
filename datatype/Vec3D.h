@@ -21,7 +21,7 @@ public:
 
     Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
 
-    Vec3D(Vec3D<T>&& other) : X{other.X}, Y{other.Y}, Z{other.Z}
+    Vec3D(Vec3D<T>&& other) noexcept : X{other.X}, Y{other.Y}, Z{other.Z}
     {
         other.X = 0;
         other.Y = 0;
@@ -36,7 +36,7 @@ public:
         return *this;
     }
 
-    Vec3D<T>& operator=(Vec3D<T>&& other)
+    Vec3D<T>& operator=(Vec3D<T>&& other) noexcept
     {
         if(this != &other){
             X = other.X;
@@ -146,6 +146,15 @@ public:
         return *this;
     }
 
+    bool operator==(const Vec3D<T>& other) const
+    {
+        return this->equal(other);
+    }
+    bool operator!=(const Vec3D<T>& other) const
+    {
+        return !this->equal(other);
+    }
+
     bool operator<(const Vec3D<T>& other) const
     {
         return (X < other.X && !Math::equal(X, other.X)) ||
@@ -173,15 +182,6 @@ public:
               ((Y > other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X)) ||
               ((Z > other.Z || Math::equal(Z, other.Z)) &&
               Math::equal(X, other.X) && Math::equal(Y, other.Y));
-    }
-    
-    bool operator==(const Vec3D<T>& other) const
-    {
-        return this->equal(other);
-    }
-    bool operator!=(const Vec3D<T>& other) const
-    {
-        return !this->equal(other);
     }
 
     Vec3D<T>& set(T x, T y, T z)

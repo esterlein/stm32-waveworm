@@ -46,7 +46,7 @@ public:
 
     Triangle<T>& operator=(Triangle<T>&& other)
     {
-        if(this != &other){
+        if(this != &other) {
             A = other.A;
             B = other.B;
             C = other.C;

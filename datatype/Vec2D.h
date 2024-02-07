@@ -20,7 +20,7 @@ public:
 
     Vec2D(const Vec2D<T>& other) : X{other.X}, Y{other.Y} {}
 
-    Vec2D(Vec2D<T>&& other) : X{other.X}, Y{other.Y}
+    Vec2D(Vec2D<T>&& other) noexcept : X{other.X}, Y{other.Y}
     {
         other.X = 0;
         other.Y = 0;
@@ -33,7 +33,7 @@ public:
         return *this;
     }
 
-    Vec2D<T>& operator=(Vec2D<T>&& other)
+    Vec2D<T>& operator=(Vec2D<T>&& other) noexcept
     {
         if(this != &other){
             X = other.X;
@@ -133,6 +133,15 @@ public:
         return *this;
     }
 
+    bool operator==(const Vec2D<T>& other) const
+    {
+        return this->equal(other);
+    }
+    bool operator!=(const Vec2D<T>& other) const
+    {
+        return !this->equal(other);
+    }
+
     bool operator<(const Vec2D<T>& other) const
     {
         return (X < other.X && !Math::equal(X, other.X)) ||
@@ -152,15 +161,6 @@ public:
     {
         return (X > other.X || Math::equal(X, other.X)) ||
               ((Y > other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X));
-    }
-    
-    bool operator==(const Vec2D<T>& other) const
-    {
-        return this->equal(other);
-    }
-    bool operator!=(const Vec2D<T>& other) const
-    {
-        return !this->equal(other);
     }
 
     Vec2D<T>& set(T x, T y)
