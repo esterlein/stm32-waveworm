@@ -58,10 +58,12 @@ public:
     {
         return Vec3D<T>(X + other.X, Y + other.Y, Z + other.Z);
     }
+
     Vec3D<T> operator+(const T v) const
     {
         return Vec3D<T>(X + v, Y + v, Z + v);
     }
+
     Vec3D<T>& operator+=(const Vec3D<T>& other)
     {
         X += other.X;
@@ -69,6 +71,7 @@ public:
         Z += other.Z;
         return *this;
     }
+
     Vec3D<T>& operator+=(const T v) const
     {
         X += v;
@@ -81,10 +84,12 @@ public:
     {
         return Vec3D<T>(X - other.X, Y - other.Y, Z - other.Z);
     }
+
     Vec3D<T> operator-(const T v) const
     {
         return Vec3D<T>(X - v, Y - v, Z - v);
     }
+
     Vec3D<T>& operator-=(const Vec3D<T>& other)
     {
         X -= other.X;
@@ -92,6 +97,7 @@ public:
         Z -= other.Z;
         return *this;
     }
+
     Vec3D<T>& operator-=(const T v) const
     {
         X -= v;
@@ -104,10 +110,12 @@ public:
     {
         return Vec3D<T>(X * other.X, Y * other.Y, Z * other.Z);
     }
+
     Vec3D<T> operator*(const T v) const
     {
         return Vec3D<T>(X * v, Y * v, Z * v);
     }
+
     Vec3D<T>& operator*=(const Vec3D<T>& other)
     {
         X *= other.X;
@@ -115,6 +123,7 @@ public:
         Z *= other.Z;
         return *this;
     }
+
     Vec3D<T>& operator*=(const T v) const
     {
         X *= v;
@@ -127,10 +136,12 @@ public:
     {
         return Vec3D<T>(X / other.X, Y / other.Y, Z / other.Z);
     }
+
     Vec3D<T> operator/(const T v) const
     {
         return Vec3D<T>(X / v, Y / v, Z / v);
     }
+
     Vec3D<T>& operator/=(const Vec3D<T>& other)
     {
         X /= other.X;
@@ -138,6 +149,7 @@ public:
         Z /= other.Z;
         return *this;
     }
+
     Vec3D<T>& operator/=(const T v) const
     {
         X /= v;
@@ -150,6 +162,7 @@ public:
     {
         return this->equal(other);
     }
+
     bool operator!=(const Vec3D<T>& other) const
     {
         return !this->equal(other);
@@ -162,6 +175,7 @@ public:
                (Z < other.Z && !Math::equal(Z, other.Z) &&
                Math::equal(X, other.X) && Math::equal(Y, other.Y));
     }
+
     bool operator>(const Vec3D<T>& other) const
     {
         return (X > other.X && !Math::equal(X, other.X)) ||
@@ -169,6 +183,7 @@ public:
                (Z > other.Z && !Math::equal(Z, other.Z) &&
                Math::equal(X, other.X) && Math::equal(Y, other.Y));
     }
+
     bool operator<=(const Vec3D<T>&other) const
     {
         return (X < other.X || Math::equal(X, other.X)) ||
@@ -176,6 +191,7 @@ public:
               ((Z < other.Z || Math::equal(Z, other.Z)) &&
               Math::equal(X, other.X) && Math::equal(Y, other.Y));
     }
+
     bool operator>=(const Vec3D<T>&other) const
     {
         return (X > other.X || Math::equal(X, other.X)) ||
@@ -196,6 +212,7 @@ public:
     {
         return std::sqrt(X * X + Y * Y + Z * Z);
     }
+
     T lengthSq() const
     {
         return X * X + Y * Y + Z * Z;
@@ -210,6 +227,7 @@ public:
     {
         return Vec3D<T>(X - other.X, Y - other.Y, Z - other.Z).length();
     }
+    
     T distanceSq(const Vec3D<T>& other) const
     {
         return Vec3D<T>(X - other.X, Y - other.Y, Z - other.Z).lengthSq();

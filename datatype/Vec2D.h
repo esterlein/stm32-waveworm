@@ -53,16 +53,19 @@ public:
     {
         return Vec2D<T>(X + other.X, Y + other.Y);
     }
+
     Vec2D<T> operator+(const T v) const
     {
         return Vec2D<T>(X + v, Y + v);
     }
+
     Vec2D<T>& operator+=(const Vec2D<T>& other)
     {
         X += other.X;
         Y += other.Y;
         return *this;
     }
+
     Vec2D<T>& operator+=(const T v) const
     {
         X += v;
@@ -74,16 +77,19 @@ public:
     {
         return Vec2D<T>(X - other.X, Y - other.Y);
     }
+
     Vec2D<T> operator-(const T v) const
     {
         return Vec2D<T>(X - v, Y - v);
     }
+
     Vec2D<T>& operator-=(const Vec2D<T>& other)
     {
         X -= other.X;
         Y -= other.Y;
         return *this;
     }
+
     Vec2D<T>& operator-=(const T v) const
     {
         X -= v;
@@ -95,16 +101,19 @@ public:
     {
         return Vec2D<T>(X * other.X, Y * other.Y);
     }
+
     Vec2D<T> operator*(const T v) const
     {
         return Vec2D<T>(X * v, Y * v);
     }
+
     Vec2D<T>& operator*=(const Vec2D<T>& other)
     {
         X *= other.X;
         Y *= other.Y;
         return *this;
     }
+
     Vec2D<T>& operator*=(const T v) const
     {
         X *= v;
@@ -116,16 +125,19 @@ public:
     {
         return Vec2D<T>(X / other.X, Y / other.Y);
     }
+
     Vec2D<T> operator/(const T v) const
     {
         return Vec2D<T>(X / v, Y / v);
     }
+
     Vec2D<T>& operator/=(const Vec2D<T>& other)
     {
         X /= other.X;
         Y /= other.Y;
         return *this;
     }
+
     Vec2D<T>& operator/=(const T v) const
     {
         X /= v;
@@ -137,6 +149,7 @@ public:
     {
         return this->equal(other);
     }
+
     bool operator!=(const Vec2D<T>& other) const
     {
         return !this->equal(other);
@@ -147,6 +160,7 @@ public:
         return (X < other.X && !Math::equal(X, other.X)) ||
                (Y < other.Y &&  Math::equal(X, other.X) && !Math::equal(Y, other.Y));
     }
+
     bool operator>(const Vec2D<T>& other) const
     {
         return (X > other.X && !Math::equal(X, other.X)) ||
@@ -157,6 +171,7 @@ public:
         return (X < other.X || Math::equal(X, other.X)) ||
                (Y < other.Y && Math::equal(X, other.X) && !Math::equal(Y, other.Y));
     }
+
     bool operator>=(const Vec2D<T>&other) const
     {
         return (X > other.X || Math::equal(X, other.X)) ||
@@ -174,6 +189,7 @@ public:
     {
         return std::sqrt(X * X + Y * Y);
     }
+
     T lengthSq() const
     {
         return X * X + Y * Y;
@@ -188,6 +204,7 @@ public:
     {
         return Vec2D<T>(X - other.X, Y - other.Y).length();
     }
+    
     T distanceSq(const Vec2D<T>& other) const
     {
         return Vec2D<T>(X - other.X, Y - other.Y).lengthSq();
