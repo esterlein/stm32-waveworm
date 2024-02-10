@@ -27,6 +27,12 @@ public:
         return m_mtx[index];
     }
 
+    const T& operator[](int index) const
+    {
+        assert(index >=0 && index < s_num_elems);
+        return m_mtx[index];
+    }
+
     Mtx4x4<T>& operator=(const Mtx4x4<T>& other)
     {
         if(this != &other)
