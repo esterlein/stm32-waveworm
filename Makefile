@@ -49,6 +49,7 @@ cxxflags        += $(opt) $(debug) $(cxxstd)
 cxxflags        += $(archflags)
 cxxflags        += -Wextra -Wshadow -Wredundant-decls -Weffc++
 cxxflags        += -fno-common -ffunction-sections -fdata-sections
+cxxflags        += -fexceptions
 
 ldflags         += --static
 ldflags         += -T$(ldscript)
