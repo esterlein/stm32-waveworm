@@ -57,7 +57,7 @@ public:
     Mtx4x4<T>& operator+=(const Mtx4x4<T>& other)
     {
         for(auto i = 0; i < s_num_elems; ++i)
-            m_matri[i] += other[i];
+            m_mtx[i] += other[i];
         return *this;
     }
 
@@ -72,7 +72,7 @@ public:
     Mtx4x4<T>& operator-=(const Mtx4x4<T>& other)
     {
         for(auto i = 0; i < s_num_elems; ++i)
-            m_matri[i] -= other[i];
+            m_mtx[i] -= other[i];
         return *this;
     }
 
