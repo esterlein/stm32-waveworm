@@ -7,7 +7,7 @@
 template <typename T>
 class Mtx4x4
 {
-protected:
+private:
     static constexpr int s_size = 16;
     std::array<T, s_size> m_mtx;
 

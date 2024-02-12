@@ -3,10 +3,44 @@
 #include <array>
 
 
-template <typename T>
+template <typename T, typename S>
 class Mesh
 {
+private:
+    std::array<T, S> m_mesh;
+
 public:
-    constexpr int m_size;
-    std::array<T, m_size> m_mesh;
+    Mesh() : m_mesh{} {}
+
+    ~Mesh() = default;
+
+    Mesh(int size) : m_size{size} {}
+
+    Mesh(const Mesh<T, S>& other)
+    {
+        *this = other;
+    }
+
+    Mesh(const Mesh<T, S>&& other) = default;
+
+    T& operator[](int index)
+    {
+        assert(index >=0 && index < m_size);
+        return m_mesh[index];
+    }
+
+    const T& operator[](int index) const
+    {
+        assert(index >=0 && index < m_size);
+        return m_mesh[index];
+    }
+
+    Mesh<T, S>& operator=(const Mesh<T, S>& other)
+    {
+        if(this != &other)
+            m_mesh = other.m_mesh;
+        return *this;
+    }
+
+    Mesh<T, S>& operator=(const Mesh<T, S>&& other) = default;
 };
