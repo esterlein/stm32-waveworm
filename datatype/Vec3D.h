@@ -21,12 +21,7 @@ public:
 
     Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
 
-    Vec3D(Vec3D<T>&& other) noexcept : X{other.X}, Y{other.Y}, Z{other.Z}
-    {
-        other.X = 0;
-        other.Y = 0;
-        other.Z = 0;
-    }
+    Vec3D(Vec3D<T>&& other) = default;
 
     Vec3D<T>& operator=(const Vec3D<T>& other)
     {
@@ -36,18 +31,7 @@ public:
         return *this;
     }
 
-    Vec3D<T>& operator=(Vec3D<T>&& other) noexcept
-    {
-        if(this != &other){
-            X = other.X;
-            Y = other.Y;
-            Z = other.Z;
-            other.X = 0;
-            other.Y = 0;
-            other.Z = 0;
-        }
-        return *this;
-    }
+    Vec3D<T>& operator=(Vec3D<T>&& other) = default;
 
     Vec3D<T> operator-() const
     {

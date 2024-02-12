@@ -20,11 +20,7 @@ public:
 
     Vec2D(const Vec2D<T>& other) : X{other.X}, Y{other.Y} {}
 
-    Vec2D(Vec2D<T>&& other) noexcept : X{other.X}, Y{other.Y}
-    {
-        other.X = 0;
-        other.Y = 0;
-    }
+    Vec2D(Vec2D<T>&& other) = default;
 
     Vec2D<T>& operator=(const Vec2D<T>& other)
     {
@@ -33,16 +29,7 @@ public:
         return *this;
     }
 
-    Vec2D<T>& operator=(Vec2D<T>&& other) noexcept
-    {
-        if(this != &other){
-            X = other.X;
-            Y = other.Y;
-            other.X = 0;
-            other.Y = 0;
-        }
-        return *this;
-    }
+    Vec2D<T>& operator=(Vec2D<T>&& other) = default;
 
     Vec2D<T> operator-() const
     {
