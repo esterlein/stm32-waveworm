@@ -14,8 +14,6 @@ public:
 
     ~Mesh() = default;
 
-    Mesh(int size) : m_size{size} {}
-
     Mesh(const Mesh<T, S>& other)
     {
         *this = other;
@@ -25,13 +23,13 @@ public:
 
     T& operator[](int index)
     {
-        assert(index >=0 && index < m_size);
+        assert(index >=0 && index < m_mesh.size());
         return m_mesh[index];
     }
 
     const T& operator[](int index) const
     {
-        assert(index >=0 && index < m_size);
+        assert(index >=0 && index < m_mesh.size());
         return m_mesh[index];
     }
 

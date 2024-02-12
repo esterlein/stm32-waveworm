@@ -21,6 +21,8 @@ public:
         *this = other;
     }
 
+    Mtx3x3(const Mtx3x3<T>&& other) = default;
+
     T& operator[](int index)
     {
         assert(index >=0 && index < s_size);
@@ -39,6 +41,8 @@ public:
             m_mtx = other.m_mtx;
         return *this;
     }
+
+    Mtx3x3<T>& operator=(const Mtx3x3<T>&& other) = default;
 
     Mtx3x3<T>& operator=(const T& scalar)
     {
