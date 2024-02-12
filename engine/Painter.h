@@ -4,11 +4,11 @@
 #include <functional>
 
 
-class GraphicsEngine
+class Painter
 {
 public:
-    GraphicsEngine() = delete;
-    GraphicsEngine(const std::function<void(int, int, uint16_t)>& painter,
+    Painter() = delete;
+    Painter(const std::function<void(int, int, uint16_t)>& painter,
                    uint16_t width, uint16_t height);
 
     void fillScreen(uint16_t color);

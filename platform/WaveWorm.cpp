@@ -4,8 +4,8 @@
 #include "Clock.h"
 #include "SDRAM.h"
 
+#include "Painter.h"
 #include "PerifLCD.h"
-#include "GraphicsEngine.h"
 
 
 int main()
@@ -16,18 +16,18 @@ int main()
 
     auto& lcd = IO::getLCD();
 
-    GraphicsEngine engine{std::bind(&PerifLCD::drawPixel, lcd,
+    Painter painter{std::bind(&PerifLCD::drawPixel, lcd,
                           std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
                           LCD::WIDTH, LCD::HEIGHT};
     
-    engine.fillScreen(LCDC::BLACK);
+    painter.fillScreen(LCDC::BLACK);
     
     // Test section
 
-    engine.drawLine(50, 50, 150, 150, LCDC::WHITE);
-    engine.drawCircle(100, 100, 50, LCDC::WHITE);
-    engine.fillRect(75, 85, 60, 40, LCDC::BLUE);
-    engine.fillCircle(200, 200, 90, LCDC::CYAN);
+    painter.drawLine(50, 50, 150, 150, LCDC::WHITE);
+    painter.drawCircle(100, 100, 50, LCDC::WHITE);
+    painter.fillRect(75, 85, 60, 40, LCDC::BLUE);
+    painter.fillCircle(200, 200, 90, LCDC::CYAN);
 
     lcd.showFrame();
 

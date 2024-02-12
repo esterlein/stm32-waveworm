@@ -1,10 +1,10 @@
 #include <cmath>
 #include <algorithm>
 
-#include "GraphicsEngine.h"
+#include "Painter.h"
 
 
-GraphicsEngine::GraphicsEngine(const std::function<void(int, int, uint16_t)>& painter,
+Painter::Painter(const std::function<void(int, int, uint16_t)>& painter,
                                uint16_t width, uint16_t height)
                                : pixPainter{painter}
                                , m_width{width}
@@ -14,19 +14,19 @@ GraphicsEngine::GraphicsEngine(const std::function<void(int, int, uint16_t)>& pa
                                , m_rot_height{height}
 {}
 
-void GraphicsEngine::fillScreen(uint16_t color)
+void Painter::fillScreen(uint16_t color)
 {
     fillRect(0, 0, m_width, m_height, color);
 }
 
-void GraphicsEngine::putPixel(int x, int y, uint16_t color)
+void Painter::putPixel(int x, int y, uint16_t color)
 {
     if(x < 0 || x >= m_width || y < 0 || y >= m_height) return;
     
     pixPainter(x, y, color);
 }
 
-void GraphicsEngine::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color)
+void Painter::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color)
 {
     int16_t steep = std::abs(y1 - y0) > std::abs(x1 - x0);
     if(steep) {
@@ -56,17 +56,17 @@ void GraphicsEngine::drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, ui
     }
 }
 
-void GraphicsEngine::drawHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
+void Painter::drawHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 {
     drawLine(x, y, x + w - 1, y, color);
 }
 
-void GraphicsEngine::drawVLine(int16_t x, int16_t y, int16_t h, uint16_t color)
+void Painter::drawVLine(int16_t x, int16_t y, int16_t h, uint16_t color)
 {
     drawLine(x, y, x, y + h - 1, color);
 }
 
-void GraphicsEngine::drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
+void Painter::drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
 {
     drawHLine(x, y, w, color);
     drawHLine(x, y + h - 1, w, color);
@@ -74,13 +74,13 @@ void GraphicsEngine::drawRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16
     drawVLine(x + w - 1, y, h, color);
 }
 
-void GraphicsEngine::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
+void Painter::fillRect(int16_t x, int16_t y, int16_t w, int16_t h, uint16_t color)
 {
     for(int i = x; i < x + w; ++i)
         drawVLine(i, y, h, color);
 }
 
-void GraphicsEngine::drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
+void Painter::drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
 {
     putPixel(x0    , y0 + r, color);
     putPixel(x0    , y0 - r, color);
@@ -110,13 +110,13 @@ void GraphicsEngine::drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t colo
     }
 }
 
-void GraphicsEngine::fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
+void Painter::fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
 {
     drawVLine(x0, y0 - r, 2 * r + 1, color);
     roundFiller(x0, y0, r, 3, 0, color);
 }
 
-void GraphicsEngine::roundFiller(int16_t x0, int16_t y0, int16_t r, uint8_t corner,
+void Painter::roundFiller(int16_t x0, int16_t y0, int16_t r, uint8_t corner,
                                  int16_t delta, uint16_t color)
 {
     int16_t x = 0, y = r;
@@ -142,7 +142,7 @@ void GraphicsEngine::roundFiller(int16_t x0, int16_t y0, int16_t r, uint8_t corn
     }
 }
 
-void GraphicsEngine::setRotation(uint8_t r)
+void Painter::setRotation(uint8_t r)
 {
     m_rotation = r & 3;
     switch(m_rotation) {
