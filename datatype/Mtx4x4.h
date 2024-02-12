@@ -8,8 +8,8 @@ template <typename T>
 class Mtx4x4
 {
 protected:
-    static constexpr int s_num_elems = 16;
-    std::array<T, s_num_elems> m_mtx;
+    static constexpr int s_size = 16;
+    std::array<T, s_size> m_mtx;
 
 public:
     Mtx4x4() : m_mtx{} {}
@@ -23,13 +23,13 @@ public:
 
     T& operator[](int index)
     {
-        assert(index >=0 && index < s_num_elems);
+        assert(index >=0 && index < s_size);
         return m_mtx[index];
     }
 
     const T& operator[](int index) const
     {
-        assert(index >=0 && index < s_num_elems);
+        assert(index >=0 && index < s_size);
         return m_mtx[index];
     }
 
@@ -49,14 +49,14 @@ public:
     Mtx4x4<T> operator+(const Mtx4x4<T>& other) const
     {
         Mtx4x4<T> sum;
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             sum[i] = m_mtx[i] + other[i];
         return sum;
     }
 
     Mtx4x4<T>& operator+=(const Mtx4x4<T>& other)
     {
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             m_mtx[i] += other[i];
         return *this;
     }
@@ -64,14 +64,14 @@ public:
     Mtx4x4<T> operator-(const Mtx4x4<T>& other) const
     {
         Mtx4x4<T> diff;
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             diff[i] = m_mtx[i] - other[i];
         return diff;
     }
 
     Mtx4x4<T>& operator-=(const Mtx4x4<T>& other)
     {
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             m_mtx[i] -= other[i];
         return *this;
     }
@@ -79,14 +79,14 @@ public:
     Mtx4x4<T> operator*(const T& scalar) const
     {
         Mtx4x4<T> prod;
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             prod[i] = m_mtx[i] * scalar;
         return prod;
     }
 
     Mtx4x4<T>& operator*=(const T& scalar)
     {
-        for(auto i = 0; i < s_num_elems; ++i)
+        for(auto i = 0; i < s_size; ++i)
             m_mtx[i] *= other[i];
         return *this;
     }
@@ -120,7 +120,7 @@ public:
 
     Mtx4x4<T> operator*=(const Mtx4x4<T>& other) const
     {
-        std::array<T, s_num_elems> prod;
+        std::array<T, s_size> prod;
 
         prod[0]  *= m_mtx[0] * other[0]  + m_mtx[4] * other[1]  + m_mtx[8]  * other[2]  + m_mtx[12] * other[3];
         prod[1]  *= m_mtx[1] * other[0]  + m_mtx[5] * other[1]  + m_mtx[9]  * other[2]  + m_mtx[13] * other[3];
