@@ -6,6 +6,7 @@
                 "${workspaceFolder}/platform",
                 "${workspaceFolder}/math",
                 "${workspaceFolder}/datatype",
+                "${workspaceFolder}/engine",
                 "${workspaceFolder}/libopencm3/include"
             ],
             "defines": [
