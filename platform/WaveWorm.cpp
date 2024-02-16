@@ -4,6 +4,9 @@
 #include "Clock.h"
 #include "SDRAM.h"
 
+#include "Mesh.h"
+#include "Vec3D.h"
+
 #include "Painter.h"
 #include "PerifLCD.h"
 
@@ -23,6 +26,8 @@ int main()
     painter.fillScreen(LCDC::BLACK);
     
     // Test section
+
+    Mesh<Vec3D<float>, 10> mesh;
 
     painter.drawLine(50, 50, 150, 150, LCDC::WHITE);
     painter.drawCircle(100, 100, 50, LCDC::WHITE);
