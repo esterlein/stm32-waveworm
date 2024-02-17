@@ -4,8 +4,8 @@
 #include "Clock.h"
 #include "SDRAM.h"
 
-#include "Mesh.h"
 #include "Vec3D.h"
+#include "Mesh.h"
 
 #include "Painter.h"
 #include "PerifLCD.h"
@@ -26,6 +26,10 @@ int main()
     painter.fillScreen(LCDC::BLACK);
     
     // Test section
+
+    Vec3D<float> vec1;
+    Vec3D<float> vec2(0.5f, 0.5f, 0.5f);
+    Vec3D<float> vec3 = vec1 + vec2;
 
     Mesh<Vec3D<float>, 10> mesh;
 
