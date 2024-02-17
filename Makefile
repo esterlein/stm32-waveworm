@@ -40,10 +40,10 @@ device          += -DSTM32F4
 flptflags       ?= -mfloat-abi=hard -mfpu=fpv4-sp-d16
 archflags        = -mthumb -mcpu=cortex-m4 $(flptflags)
 
-cppflags         += -MD
-cppflags         += -Wall -Wundef
-cppflags         += $(device)
-cppflags         += $(includes)
+cppflags        += -MD
+cppflags        += -Wall -Wundef
+cppflags        += $(device)
+cppflags        += $(includes)
 
 cxxflags        += $(opt) $(debug) $(cxxstd)
 cxxflags        += $(archflags)
