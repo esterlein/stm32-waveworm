@@ -4,7 +4,11 @@
 #include "Clock.h"
 #include "SDRAM.h"
 
+#include "Vec2D.h"
 #include "Vec3D.h"
+#include "Mtx3x3.h"
+#include "Mtx4x4.h"
+
 #include "Mesh.h"
 
 #include "Painter.h"
@@ -30,6 +34,13 @@ int main()
     Vec3D<float> vec1;
     Vec3D<float> vec2(0.5f, 0.5f, 0.5f);
     Vec3D<float> vec3 = vec1 + vec2;
+
+    Vec2D<float> vec4;
+    Vec2D<float> vec5(0.5f, 0.5f);
+    Vec2D<float> vec6 = vec4 + vec5;
+
+    Mtx3x3<float> mtx1;
+    Mtx4x4<float> mtx2;
 
     Mesh<Vec3D<float>, 10> mesh;
 
