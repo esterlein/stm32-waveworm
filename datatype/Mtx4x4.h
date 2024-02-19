@@ -147,19 +147,4 @@ public:
         m_mtx = prod;
         return *this;
     }
-
-    
-};
-
-template <typename T>
-class Mtx4x4Identity : Mtx4x4<T>
-{
-public:
-    Mtx4x4Identity()
-    : m_mtx{}
-    {
-        m_mtx[0] = m_mtx[5] = m_mtx[10] = m_mtx[15] = static_cast<T>(1);
-    }
-
-    ~Mtx4x4Identity() = default;
 };
