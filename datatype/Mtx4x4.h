@@ -1,5 +1,7 @@
 #pragma once
 
+#include <assert.h>
+
 #include <array>
 #include <algorithm>
 
@@ -87,7 +89,7 @@ public:
     Mtx4x4<T>& operator*=(const T& scalar)
     {
         for(auto i = 0; i < s_size; ++i)
-            m_mtx[i] *= other[i];
+            m_mtx[i] *= scalar[i];
         return *this;
     }
 
