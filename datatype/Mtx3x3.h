@@ -1,6 +1,6 @@
 #pragma once
 
-#include <assert.h>
+#include <cassert>
 
 #include <array>
 #include <algorithm>
@@ -25,13 +25,13 @@ public:
 
     T& operator[](int index)
     {
-        assert(index >=0 && index < s_size);
+        assert(index >= 0 && index < s_size);
         return m_mtx[index];
     }
 
     const T& operator[](int index) const
     {
-        assert(index >=0 && index < s_size);
+        assert(index >= 0 && index < s_size);
         return m_mtx[index];
     }
 
