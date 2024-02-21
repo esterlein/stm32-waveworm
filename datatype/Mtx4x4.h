@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <cassert>
 
 #include <array>
@@ -146,5 +147,20 @@ public:
 
         m_mtx = prod;
         return *this;
+    }
+
+    constexpr static Mtx4x4<T> Projection(T fov, T aspect, T near, T far)
+    {
+        T fovRad = 1.0f / tanf(fov * 0.5f / 180.0f * 3.14159f);
+
+        Mtx4x4<T> mtx;
+        mtx[0][0] = aspect * fovRad;
+        mtx[1][1] = fovRad;
+        mtx[2][2] = far / (far - near);
+        mtx[3][2] = (-far * near) / (far - near);
+        mtx[2][3] = 1.0f;
+        mtx[3][3] = 0.0f;
+
+        return mtx;
     }
 };
