@@ -151,7 +151,7 @@ public:
 
     constexpr static Mtx4x4<T> Projection(T fov, T aspect, T near, T far)
     {
-        T fovRad = 1.0f / tanf(fov * 0.5f / 180.0f * 3.14159f);
+        T fovRad = 1.0f / tanf(fov * 0.5f / 180.0f * 3.1415927f);
 
         Mtx4x4<T> mtx;
         mtx[0][0] = aspect * fovRad;
