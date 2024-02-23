@@ -188,7 +188,9 @@ public:
         return (X < other.X || Math::equal(X, other.X)) ||
               ((Y < other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X)) ||
               ((Z < other.Z || Math::equal(Z, other.Z)) &&
-              Math::equal(X, other.X) && Math::equal(Y, other.Y));
+              Math::equal(X, other.X) && Math::equal(Y, other.Y)) ||
+              ((W < other.W || Math::equal(W, other.W)) &&
+              Math::equal(X, other.X) && Math::equal(Y, other.Y) && Math::equal(Z, other.Z));
     }
 
     bool operator>=(const Vec4D<T>&other) const
@@ -196,7 +198,9 @@ public:
         return (X > other.X || Math::equal(X, other.X)) ||
               ((Y > other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X)) ||
               ((Z > other.Z || Math::equal(Z, other.Z)) &&
-              Math::equal(X, other.X) && Math::equal(Y, other.Y));
+              Math::equal(X, other.X) && Math::equal(Y, other.Y)) ||
+              ((W > other.W || Math::equal(W, other.W)) &&
+              Math::equal(X, other.X) && Math::equal(Y, other.Y) && Math::equal(Z, other.Z));
     }
 
     Vec4D<T>& set(T x, T y, T z)
@@ -204,32 +208,33 @@ public:
         X = x;
         Y = y;
         Z = z;
+        W = w;
         return *this;
     }
 
     T length() const
     {
-        return std::sqrt(X * X + Y * Y + Z * Z);
+        return std::sqrt(X * X + Y * Y + Z * Z + W * W);
     }
 
     T lengthSq() const
     {
-        return X * X + Y * Y + Z * Z;
+        return X * X + Y * Y + Z * Z, W * W;
     }
 
     T dot(const Vec4D<T>& other) const
     {
-        return X * other.X + Y * other.Y + Z * other.Z;
+        return X * other.X + Y * other.Y + Z * other.Z + W * other.W;
     }
 
     T distance(const Vec4D<T>& other) const
     {
-        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z).length();
+        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z, W - other.W).length();
     }
     
     T distanceSq(const Vec4D<T>& other) const
     {
-        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z).lengthSq();
+        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z, W - other.W).lengthSq();
     }
 
     Vec4D<T>& normalize()
@@ -239,6 +244,7 @@ public:
             X /= len;
             Y /= len;
             Z /= len;
+            W /= len;
         }
         return *this;
     }
@@ -248,6 +254,7 @@ private:
     {
         return Math::equal(X, other.X) &&
                Math::equal(Y, other.Y) &&
-               Math::equal(Z, other.Z);
+               Math::equal(Z, other.Z) &&
+               Math::equal(W, other.W);
     }
 };
