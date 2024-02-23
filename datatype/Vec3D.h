@@ -155,7 +155,7 @@ public:
     bool operator<(const Vec3D<T>& other) const
     {
         return (X < other.X && !Math::equal(X, other.X)) ||
-               (Y < other.Y &&  Math::equal(X, other.X) && !Math::equal(Y, other.Y)) ||
+               (Y < other.Y && !Math::equal(Y, other.Y) && Math::equal(X, other.X)) ||
                (Z < other.Z && !Math::equal(Z, other.Z) &&
                Math::equal(X, other.X) && Math::equal(Y, other.Y));
     }
@@ -163,7 +163,7 @@ public:
     bool operator>(const Vec3D<T>& other) const
     {
         return (X > other.X && !Math::equal(X, other.X)) ||
-               (Y > other.Y &&  Math::equal(X, other.X) && !Math::equal(Y, other.Y)) ||
+               (Y > other.Y && !Math::equal(Y, other.Y) && Math::equal(X, other.X)) ||
                (Z > other.Z && !Math::equal(Z, other.Z) &&
                Math::equal(X, other.X) && Math::equal(Y, other.Y));
     }
