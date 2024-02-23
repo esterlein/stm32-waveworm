@@ -1,2 +1,253 @@
 #pragma once
 
+#include <cmath>
+
+#include "WwMath.h"
+
+
+template <typename T>
+class Vec4D
+{
+public:
+    T X;
+    T Y;
+    T Z;
+    T W;
+
+    Vec4D() : X{0}, Y{0}, Z{0}, W{0} {}
+    Vec4D(T x, T y, T z) : X{x}, Y{y}, Z{z}, W{1} {}
+    Vec4D(T x, T y, T z, T w) : X{x}, Y{y}, Z{z}, W{w} {}
+    explicit Vec4D(T n) : X{n}, Y{n}, Z{n}, W{n} {}
+
+    ~Vec4D() = default;
+
+    Vec4D(const Vec4D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z}, W{other.W} {}
+
+    Vec4D(Vec4D<T>&& other) = default;
+
+    Vec4D<T>& operator=(const Vec4D<T>& other)
+    {
+        X = other.X;
+        Y = other.Y;
+        Z = other.Z;
+        W = other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator=(Vec4D<T>&& other) = default;
+
+    Vec4D<T> operator-() const
+    {
+        return Vec4D<T>(-X, -Y, -Z, -W);
+    }
+
+    Vec4D<T> operator+(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X + other.X, Y + other.Y, Z + other.Z, W + other.W);
+    }
+
+    Vec4D<T> operator+(const T v) const
+    {
+        return Vec4D<T>(X + v, Y + v, Z + v, W + v);
+    }
+
+    Vec4D<T>& operator+=(const Vec4D<T>& other)
+    {
+        X += other.X;
+        Y += other.Y;
+        Z += other.Z;
+        W += other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator+=(const T v) const
+    {
+        X += v;
+        Y += v;
+        Z += v;
+        W += v;
+        return *this;
+    }
+
+    Vec4D<T> operator-(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z, W - other.W);
+    }
+
+    Vec4D<T> operator-(const T v) const
+    {
+        return Vec4D<T>(X - v, Y - v, Z - v, W - v);
+    }
+
+    Vec4D<T>& operator-=(const Vec4D<T>& other)
+    {
+        X -= other.X;
+        Y -= other.Y;
+        Z -= other.Z;
+        W -= other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator-=(const T v) const
+    {
+        X -= v;
+        Y -= v;
+        Z -= v;
+        W -= v;
+        return *this;
+    }
+
+    Vec4D<T> operator*(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X * other.X, Y * other.Y, Z * other.Z, W * other.W);
+    }
+
+    Vec4D<T> operator*(const T v) const
+    {
+        return Vec4D<T>(X * v, Y * v, Z * v, W * v);
+    }
+
+    Vec4D<T>& operator*=(const Vec4D<T>& other)
+    {
+        X *= other.X;
+        Y *= other.Y;
+        Z *= other.Z;
+        W *= other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator*=(const T v) const
+    {
+        X *= v;
+        Y *= v;
+        Z *= v;
+        W *= v;
+        return *this;
+    }
+
+    Vec4D<T> operator/(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X / other.X, Y / other.Y, Z / other.Z, W / other.W);
+    }
+
+    Vec4D<T> operator/(const T v) const
+    {
+        return Vec4D<T>(X / v, Y / v, Z / v, W / v);
+    }
+
+    Vec4D<T>& operator/=(const Vec4D<T>& other)
+    {
+        X /= other.X;
+        Y /= other.Y;
+        Z /= other.Z;
+        W /= other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator/=(const T v) const
+    {
+        X /= v;
+        Y /= v;
+        Z /= v;
+        W /= v;
+        return *this;
+    }
+
+    bool operator==(const Vec4D<T>& other) const
+    {
+        return this->equal(other);
+    }
+
+    bool operator!=(const Vec4D<T>& other) const
+    {
+        return !this->equal(other);
+    }
+
+    bool operator<(const Vec4D<T>& other) const
+    {
+        return (X < other.X && !Math::equal(X, other.X)) ||
+               (Y < other.Y && !Math::equal(Y, other.Y) && Math::equal(X, other.X)) ||
+               (Z < other.Z && !Math::equal(Z, other.Z) &&
+               Math::equal(X, other.X) && Math::equal(Y, other.Y)) ||
+               (W < other.W && !Math::equal(W, other.W) &&
+               Math::equal(X, other.X) && Math::equal(Y, other.Y) && Math::equal(Z, other.Z));
+    }
+
+    bool operator>(const Vec4D<T>& other) const
+    {
+        return (X > other.X && !Math::equal(X, other.X)) ||
+               (Y > other.Y && !Math::equal(Y, other.Y) && Math::equal(X, other.X)) ||
+               (Z > other.Z && !Math::equal(Z, other.Z) &&
+               Math::equal(X, other.X) && Math::equal(Y, other.Y)) ||
+               (W > other.W && !Math::equal(W, other.W) &&
+               Math::equal(X, other.X) && Math::equal(Y, other.Y) && Math::equal(Z, other.Z));
+    }
+
+    bool operator<=(const Vec4D<T>&other) const
+    {
+        return (X < other.X || Math::equal(X, other.X)) ||
+              ((Y < other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X)) ||
+              ((Z < other.Z || Math::equal(Z, other.Z)) &&
+              Math::equal(X, other.X) && Math::equal(Y, other.Y));
+    }
+
+    bool operator>=(const Vec4D<T>&other) const
+    {
+        return (X > other.X || Math::equal(X, other.X)) ||
+              ((Y > other.Y || Math::equal(Y, other.Y)) && Math::equal(X, other.X)) ||
+              ((Z > other.Z || Math::equal(Z, other.Z)) &&
+              Math::equal(X, other.X) && Math::equal(Y, other.Y));
+    }
+
+    Vec4D<T>& set(T x, T y, T z)
+    {
+        X = x;
+        Y = y;
+        Z = z;
+        return *this;
+    }
+
+    T length() const
+    {
+        return std::sqrt(X * X + Y * Y + Z * Z);
+    }
+
+    T lengthSq() const
+    {
+        return X * X + Y * Y + Z * Z;
+    }
+
+    T dot(const Vec4D<T>& other) const
+    {
+        return X * other.X + Y * other.Y + Z * other.Z;
+    }
+
+    T distance(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z).length();
+    }
+    
+    T distanceSq(const Vec4D<T>& other) const
+    {
+        return Vec4D<T>(X - other.X, Y - other.Y, Z - other.Z).lengthSq();
+    }
+
+    Vec4D<T>& normalize()
+    {
+        const T len = this->length();
+        if(len) {
+            X /= len;
+            Y /= len;
+            Z /= len;
+        }
+        return *this;
+    }
+
+private:
+    bool equal(const Vec4D<T>& other) const
+    {
+        return Math::equal(X, other.X) &&
+               Math::equal(Y, other.Y) &&
+               Math::equal(Z, other.Z);
+    }
+};

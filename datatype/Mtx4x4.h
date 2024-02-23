@@ -157,8 +157,8 @@ public:
         
         mtx[0][0] = aspect * fovRad;
         mtx[1][1] = fovRad;
-        mtx[2][2] = static_cast<T>(far / (far - near));
-        mtx[3][2] = static_cast<T>((-far * near) / (far - near));
+        mtx[2][2] = far / (far - near);
+        mtx[3][2] = (-far * near) / (far - near);
         mtx[2][3] = static_cast<T>(1.0f);
         mtx[3][3] = static_cast<T>(0.0f);
 
