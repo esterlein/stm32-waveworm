@@ -6,6 +6,7 @@
 
 #include "Vec2D.h"
 #include "Vec3D.h"
+#include "Vec4D.h"
 #include "Mtx3x3.h"
 #include "Mtx4x4.h"
 
@@ -41,6 +42,10 @@ int main()
 
     Mtx3x3<float> mtx1;
     Mtx4x4<float> mtx2;
+
+    Vec4D<float> vec7;
+    Vec4D<float> vec8(0.5f, 0.5f, 0.5f);
+    Vec4D<float> vec9 = vec7 + vec8;
 
     Mesh<Vec3D<float>, 10> mesh;
 

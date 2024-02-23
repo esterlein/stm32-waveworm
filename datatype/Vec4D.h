@@ -203,7 +203,7 @@ public:
               Math::equal(X, other.X) && Math::equal(Y, other.Y) && Math::equal(Z, other.Z));
     }
 
-    Vec4D<T>& set(T x, T y, T z)
+    Vec4D<T>& set(T x, T y, T z, T w)
     {
         X = x;
         Y = y;
