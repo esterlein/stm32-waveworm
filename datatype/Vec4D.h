@@ -32,7 +32,7 @@ public:
     T& operator[](int index)
     {
         assert(index >= 0 && index < s_size);
-        
+
         T& component;
         switch(index) {
             case 0: component = X; break;
@@ -46,7 +46,7 @@ public:
     const T& operator[](int index) const
     {
         assert(index >= 0 && index < s_size);
-        
+
         T& component;
         switch(index) {
             case 0: component = X; break;

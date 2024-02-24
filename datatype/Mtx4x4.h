@@ -151,6 +151,11 @@ public:
         return *this;
     }
 
+    Vec4D<T> operator*(const Vec4D<T>& vec) const
+    {
+        m_mtx[]
+    }
+
     constexpr static Mtx4x4<T> Identity()
     {
         Mtx4x4<T> mtx;

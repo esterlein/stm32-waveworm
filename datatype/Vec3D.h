@@ -8,6 +8,9 @@
 template <typename T>
 class Vec3D
 {
+private:
+    static constexpr int s_size = 3;
+
 public:
     T X;
     T Y;
@@ -22,6 +25,32 @@ public:
     Vec3D(const Vec3D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z} {}
 
     Vec3D(Vec3D<T>&& other) = default;
+
+    T& operator[](int index)
+    {
+        assert(index >= 0 && index < s_size);
+
+        T& component;
+        switch(index) {
+            case 0: component = X; break;
+            case 1: component = Y; break;
+            case 2: component = Z; break;
+        }
+        return component;
+    }
+
+    const T& operator[](int index) const
+    {
+        assert(index >= 0 && index < s_size);
+
+        T& component;
+        switch(index) {
+            case 0: component = X; break;
+            case 1: component = Y; break;
+            case 2: component = Z; break;
+        }
+        return component;
+    }
 
     Vec3D<T>& operator=(const Vec3D<T>& other)
     {
