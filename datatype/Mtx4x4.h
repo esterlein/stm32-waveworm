@@ -149,18 +149,19 @@ public:
         return *this;
     }
 
-    constexpr static Mtx4x4<T> Projection(T fov, T aspect, T near, T far)
+    constexpr static Mtx4x4<T> PerspectiveProjection(T fov, T aspect, T near, T far, Math::Angle unit = Math::Angle::Deg)
     {
         Mtx4x4<T> mtx;
 
-        T fovRad = static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
+        T fovFactor = unit == Math::Angle::Deg
+            ? static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f))
+            : static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
         
-        mtx[0][0] = aspect * fovRad;
-        mtx[1][1] = fovRad;
+        mtx[0][0] = aspect * fovFactor;
+        mtx[1][1] = fovFactor;
         mtx[2][2] = far / (far - near);
-        mtx[3][2] = (-far * near) / (far - near);
-        mtx[2][3] = static_cast<T>(1.0f);
-        mtx[3][3] = static_cast<T>(0.0f);
+        mtx[2][3] = (-far * near) / (far - near);
+        mtx[3][2] = static_cast<T>(1.0f);
 
         return mtx;
     }

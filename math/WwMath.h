@@ -13,4 +13,10 @@ namespace Math
     { 
         return std::abs(a - b) <= std::numeric_limits<T>::epsilon() * std::max(std::abs(a), std::abs(b));
     }
+
+    enum class Angle
+    {
+        Deg,
+        Rad
+    };
 }
