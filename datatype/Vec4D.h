@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <cassert>
 
 #include "WwMath.h"
 
@@ -8,6 +9,9 @@
 template <typename T>
 class Vec4D
 {
+private:
+    static constexpr int s_size = 4;
+
 public:
     T X;
     T Y;
@@ -24,6 +28,34 @@ public:
     Vec4D(const Vec4D<T>& other) : X{other.X}, Y{other.Y}, Z{other.Z}, W{other.W} {}
 
     Vec4D(Vec4D<T>&& other) = default;
+
+    T& operator[](int index)
+    {
+        assert(index >= 0 && index < s_size);
+        
+        T& component;
+        switch(index) {
+            case 0: component = X; break;
+            case 1: component = Y; break;
+            case 2: component = Z; break;
+            case 3: component = W; break;
+        }
+        return component;
+    }
+
+    const T& operator[](int index) const
+    {
+        assert(index >= 0 && index < s_size);
+        
+        T& component;
+        switch(index) {
+            case 0: component = X; break;
+            case 1: component = Y; break;
+            case 2: component = Z; break;
+            case 3: component = W; break;
+        }
+        return component;
+    }
 
     Vec4D<T>& operator=(const Vec4D<T>& other)
     {

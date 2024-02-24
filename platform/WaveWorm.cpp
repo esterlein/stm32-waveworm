@@ -25,8 +25,8 @@ int main()
     auto& lcd = IO::getLCD();
 
     Painter painter{std::bind(&PerifLCD::drawPixel, lcd,
-                          std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
-                          LCD::WIDTH, LCD::HEIGHT};
+                    std::placeholders::_1, std::placeholders::_2, std::placeholders::_3),
+                    LCD::WIDTH, LCD::HEIGHT};
     
     painter.fillScreen(LCDC::BLACK);
     

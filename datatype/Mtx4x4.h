@@ -6,6 +6,8 @@
 #include <array>
 #include <algorithm>
 
+#include "Vec4D.h"
+
 
 template <typename T>
 class Mtx4x4
@@ -16,7 +18,7 @@ private:
 
 public:
     Mtx4x4() : m_mtx{} {}
-    
+
     ~Mtx4x4() = default;
 
     Mtx4x4(const Mtx4x4<T>& other)
@@ -102,17 +104,17 @@ public:
         prod[1]  = m_mtx[1] * other[0]  + m_mtx[5] * other[1]  + m_mtx[9]  * other[2]  + m_mtx[13] * other[3];
         prod[2]  = m_mtx[2] * other[0]  + m_mtx[6] * other[1]  + m_mtx[10] * other[2]  + m_mtx[14] * other[3];
         prod[3]  = m_mtx[3] * other[0]  + m_mtx[7] * other[1]  + m_mtx[11] * other[2]  + m_mtx[15] * other[3];
- 
+
         prod[4]  = m_mtx[0] * other[4]  + m_mtx[4] * other[5]  + m_mtx[8]  * other[6]  + m_mtx[12] * other[7];
         prod[5]  = m_mtx[1] * other[4]  + m_mtx[5] * other[5]  + m_mtx[9]  * other[6]  + m_mtx[13] * other[7];
         prod[6]  = m_mtx[2] * other[4]  + m_mtx[6] * other[5]  + m_mtx[10] * other[6]  + m_mtx[14] * other[7];
         prod[7]  = m_mtx[3] * other[4]  + m_mtx[7] * other[5]  + m_mtx[11] * other[6]  + m_mtx[15] * other[7];
- 
+
         prod[8]  = m_mtx[0] * other[8]  + m_mtx[4] * other[9]  + m_mtx[8]  * other[10] + m_mtx[12] * other[11];
         prod[9]  = m_mtx[1] * other[8]  + m_mtx[5] * other[9]  + m_mtx[9]  * other[10] + m_mtx[13] * other[11];
         prod[10] = m_mtx[2] * other[8]  + m_mtx[6] * other[9]  + m_mtx[10] * other[10] + m_mtx[14] * other[11];
         prod[11] = m_mtx[3] * other[8]  + m_mtx[7] * other[9]  + m_mtx[11] * other[10] + m_mtx[15] * other[11];
- 
+
         prod[12] = m_mtx[0] * other[12] + m_mtx[4] * other[13] + m_mtx[8]  * other[14] + m_mtx[12] * other[15];
         prod[13] = m_mtx[1] * other[12] + m_mtx[5] * other[13] + m_mtx[9]  * other[14] + m_mtx[13] * other[15];
         prod[14] = m_mtx[2] * other[12] + m_mtx[6] * other[13] + m_mtx[10] * other[14] + m_mtx[14] * other[15];
@@ -129,17 +131,17 @@ public:
         prod[1]  *= m_mtx[1] * other[0]  + m_mtx[5] * other[1]  + m_mtx[9]  * other[2]  + m_mtx[13] * other[3];
         prod[2]  *= m_mtx[2] * other[0]  + m_mtx[6] * other[1]  + m_mtx[10] * other[2]  + m_mtx[14] * other[3];
         prod[3]  *= m_mtx[3] * other[0]  + m_mtx[7] * other[1]  + m_mtx[11] * other[2]  + m_mtx[15] * other[3];
- 
+
         prod[4]  *= m_mtx[0] * other[4]  + m_mtx[4] * other[5]  + m_mtx[8]  * other[6]  + m_mtx[12] * other[7];
         prod[5]  *= m_mtx[1] * other[4]  + m_mtx[5] * other[5]  + m_mtx[9]  * other[6]  + m_mtx[13] * other[7];
         prod[6]  *= m_mtx[2] * other[4]  + m_mtx[6] * other[5]  + m_mtx[10] * other[6]  + m_mtx[14] * other[7];
         prod[7]  *= m_mtx[3] * other[4]  + m_mtx[7] * other[5]  + m_mtx[11] * other[6]  + m_mtx[15] * other[7];
- 
+
         prod[8]  *= m_mtx[0] * other[8]  + m_mtx[4] * other[9]  + m_mtx[8]  * other[10] + m_mtx[12] * other[11];
         prod[9]  *= m_mtx[1] * other[8]  + m_mtx[5] * other[9]  + m_mtx[9]  * other[10] + m_mtx[13] * other[11];
         prod[10] *= m_mtx[2] * other[8]  + m_mtx[6] * other[9]  + m_mtx[10] * other[10] + m_mtx[14] * other[11];
         prod[11] *= m_mtx[3] * other[8]  + m_mtx[7] * other[9]  + m_mtx[11] * other[10] + m_mtx[15] * other[11];
- 
+
         prod[12] *= m_mtx[0] * other[12] + m_mtx[4] * other[13] + m_mtx[8]  * other[14] + m_mtx[12] * other[15];
         prod[13] *= m_mtx[1] * other[12] + m_mtx[5] * other[13] + m_mtx[9]  * other[14] + m_mtx[13] * other[15];
         prod[14] *= m_mtx[2] * other[12] + m_mtx[6] * other[13] + m_mtx[10] * other[14] + m_mtx[14] * other[15];
@@ -162,9 +164,9 @@ public:
         Mtx4x4<T> mtx;
 
         T fovFactor = unit == Math::Angle::Deg
-            ? static_cast<T>(1.0f / std::tanf(static_cast<float>(fov) * 0.5f))
-            : static_cast<T>(1.0f / std::tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
-        
+            ? static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f))
+            : static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
+
         mtx[0][0] = aspect * fovFactor;
         mtx[1][1] = fovFactor;
         mtx[2][2] = far / (far - near);
