@@ -149,13 +149,21 @@ public:
         return *this;
     }
 
+    constexpr static Mtx4x4<T> Identity()
+    {
+        Mtx4x4<T> mtx;
+        for(auto i = 0; i < 4; ++i)
+            mtx[i][i] = static_cast<T>(1.0f);
+        return mtx;
+    }
+
     constexpr static Mtx4x4<T> PerspectiveProjection(T fov, T aspect, T near, T far, Math::Angle unit = Math::Angle::Deg)
     {
         Mtx4x4<T> mtx;
 
         T fovFactor = unit == Math::Angle::Deg
-            ? static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f))
-            : static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
+            ? static_cast<T>(1.0f / std::tanf(static_cast<float>(fov) * 0.5f))
+            : static_cast<T>(1.0f / std::tanf(static_cast<float>(fov) * 0.5f / 180.0f * 3.1415927f));
         
         mtx[0][0] = aspect * fovFactor;
         mtx[1][1] = fovFactor;
