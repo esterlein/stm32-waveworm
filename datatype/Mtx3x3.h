@@ -1,17 +1,20 @@
 #pragma once
 
+#include <cmath>
 #include <cassert>
 
 #include <array>
 #include <algorithm>
+
+#include "Vec3D.h"
 
 
 template <typename T>
 class Mtx3x3
 {
 private:
-    static constexpr int s_size = 9;
-    std::array<T, s_size> m_mtx;
+    static constexpr int s_size = 3;
+    std::array<Vec3D<T>, s_size> m_mtx;
 
 public:
     Mtx3x3() : m_mtx{} {}
@@ -23,13 +26,13 @@ public:
         *this = other;
     }
 
-    T& operator[](int index)
+    Vec3D<T>& operator[](int index)
     {
         assert(index >= 0 && index < s_size);
         return m_mtx[index];
     }
 
-    const T& operator[](int index) const
+    constexpr Vec3D<T>& operator[](int index) const
     {
         assert(index >= 0 && index < s_size);
         return m_mtx[index];

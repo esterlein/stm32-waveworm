@@ -13,8 +13,8 @@ template <typename T>
 class Mtx4x4
 {
 private:
-    static constexpr int s_size = 16;
-    std::array<T, s_size> m_mtx;
+    static constexpr int s_size = 4;
+    std::array<Vec4D<T>, s_size> m_mtx;
 
 public:
     Mtx4x4() : m_mtx{} {}
@@ -26,13 +26,13 @@ public:
         *this = other;
     }
 
-    T& operator[](int index)
+    Vec4D<T>& operator[](int index)
     {
         assert(index >= 0 && index < s_size);
         return m_mtx[index];
     }
 
-    const T& operator[](int index) const
+    constexpr Vec4D<T>& operator[](int index) const
     {
         assert(index >= 0 && index < s_size);
         return m_mtx[index];

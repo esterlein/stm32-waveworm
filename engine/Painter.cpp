@@ -4,14 +4,13 @@
 #include "Painter.h"
 
 
-Painter::Painter(const std::function<void(int, int, uint16_t)>& painter,
-                               uint16_t width, uint16_t height)
-                               : pixPainter{painter}
-                               , m_width{width}
-                               , m_height{height}
-                               , m_rotation{0}
-                               , m_rot_width{width}
-                               , m_rot_height{height}
+Painter::Painter(const std::function<void(int, int, uint16_t)>& painter, uint16_t width, uint16_t height)
+                : pixPainter{painter}
+                , m_width{width}
+                , m_height{height}
+                , m_rotation{0}
+                , m_rot_width{width}
+                , m_rot_height{height}
 {}
 
 void Painter::fillScreen(uint16_t color)

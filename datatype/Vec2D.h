@@ -38,7 +38,7 @@ public:
         return component;
     }
 
-    const T& operator[](int index) const
+    constexpr T& operator[](int index) const
     {
         assert(index >= 0 && index < s_size);
 
