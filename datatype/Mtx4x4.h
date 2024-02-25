@@ -29,7 +29,7 @@ public:
 
     constexpr Mtx4x4(const Mtx4x4<T>& other)
     {
-        *this = other;
+        m_mtx = other.m_mtx;
     }
 
     constexpr Vec4D<T>& operator[](int index)
