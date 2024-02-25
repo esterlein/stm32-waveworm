@@ -61,6 +61,14 @@ public:
         return *this;
     }
 
+    Vec3D<T>& operator=(const T& scalar)
+    {
+        X = scalar;
+        Y = scalar;
+        Z = scalar;
+        return *this;
+    }
+
     Vec3D<T>& operator=(Vec3D<T>&& other) = default;
 
     Vec3D<T> operator-() const

@@ -57,6 +57,13 @@ public:
         return *this;
     }
 
+    Vec2D<T>& operator=(const T& scalar)
+    {
+        X = scalar;
+        Y = scalar;
+        return *this;
+    }
+
     Vec2D<T>& operator=(Vec2D<T>&& other) = default;
 
     Vec2D<T> operator-() const

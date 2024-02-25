@@ -10,7 +10,7 @@ template <typename T>
 class Vec4D
 {
 private:
-    static constexpr int s_size = 4;
+    static constexpr size_t s_size = 4;
 
 public:
     T X;
@@ -63,6 +63,15 @@ public:
         Y = other.Y;
         Z = other.Z;
         W = other.W;
+        return *this;
+    }
+
+    Vec4D<T>& operator=(const T& scalar)
+    {
+        X = scalar;
+        Y = scalar;
+        Z = scalar;
+        W = scalar;
         return *this;
     }
 
