@@ -133,10 +133,16 @@ public:
         return *this;
     }
 
-    // Vec4D<T> operator*(const Vec4D<T>& vec) const
-    // {
-    //     m_mtx[]
-    // }
+    constexpr Vec4D<T>& operator*(const Vec4D<T>& vec) const
+    {
+        Vec4D<T> prod;
+
+        for(auto i = 0; i < s_size; ++i)
+            for(auto j = 0; j < s_size; ++j)
+                prod[i] += m_mtx[i][j] * vec[j];
+
+        return prod;
+    }
 
     constexpr static Mtx4x4<T> Identity()
     {
