@@ -168,4 +168,10 @@ public:
 
         return mtx;
     }
+
+    constexpr Vec4D<T> GetRow(int index) const
+    {
+        assert(index >= 0 && index < s_size);
+        return m_mtx[index];
+    }
 };
