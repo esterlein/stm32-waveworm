@@ -174,4 +174,10 @@ public:
         assert(index >= 0 && index < s_size);
         return m_mtx[index];
     }
+
+    constexpr Vec4D<T> GetCol(int index) const
+    {
+        assert(index >= 0 && index < s_size);
+        return {m_mtx[index].X, m_mtx[index].Y, m_mtx[index].Z, m_mtx[index].W};
+    }
 };
