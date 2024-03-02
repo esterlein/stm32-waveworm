@@ -23,13 +23,25 @@ public:
 
     ~SpaceTransformer() = default;
 
-    Vec4D<T> ProjectiveTransformation() const
+    Vec4D<T> PerspectiveTransform(const Vec4D<T>& vertex) const
     {
-        Mtx4x4<T> projMtx = Mtx4x4<T>::PerspectiveProjection(static_cast<T>(90.f),
-                                                             m_aspectRatio,
-                                                             static_cast<T>(1.f),
-                                                             static_cast<T>(10.f));
+        constexpr static Mtx4x4<T> mtxProj = Mtx4x4<T>::PerspectiveProjection(
+                                                        static_cast<T>(90.f),
+                                                        m_aspectRatio,
+                                                        static_cast<T>(1.f),
+                                                        static_cast<T>(10.f));
+        
+        Vec4D<T> vtxTrans = mtxProj * vertex;
 
-        return {};                                         
+        if(!vtxTrans.W)
+            return vtxTrans;
+
+        const float inverseW = 1.f / static_cast<float>(vtxTrans.W);
+
+        vtxTrans.X *= inverseW;
+        vtxTrans.Y *= inverseW;
+        vtxTrans.Z *= inverseW;
+
+        return vtxTrans;
     }
 };

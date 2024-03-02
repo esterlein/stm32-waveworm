@@ -160,7 +160,7 @@ public:
     {
         Mtx4x4<T> mtx;
         for(auto i = 0; i < s_size; ++i)
-            mtx[i][i] = static_cast<T>(1.0f);
+            mtx[i][i] = static_cast<T>(1.f);
         return mtx;
     }
 
@@ -169,14 +169,14 @@ public:
         Mtx4x4<T> mtx;
 
         T fovFactor = unit == Math::Angle::Deg
-            ? static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f))
-            : static_cast<T>(1.0f / tanf(static_cast<float>(fov) * 0.5f / 180.0f * std::numbers::pi_v<float>));
+            ? static_cast<T>(1.f / tanf(static_cast<float>(fov) * .5f))
+            : static_cast<T>(1.f / tanf(static_cast<float>(fov) * .5f / 180.f * std::numbers::pi_v<float>));
 
         mtx[0][0] = aspect * fovFactor;
         mtx[1][1] = fovFactor;
         mtx[2][2] = far / (far - near);
         mtx[2][3] = (-far * near) / (far - near);
-        mtx[3][2] = static_cast<T>(1.0f);
+        mtx[3][2] = static_cast<T>(1.f);
 
         return mtx;
     }
