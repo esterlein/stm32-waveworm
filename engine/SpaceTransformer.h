@@ -36,7 +36,7 @@ public:
         if(!vtxTrans.W)
             return vtxTrans;
 
-        const float inverseW = 1.f / static_cast<float>(vtxTrans.W);
+        const T inverseW = static_cast<T>(1.f / static_cast<float>(vtxTrans.W));
 
         vtxTrans.X *= inverseW;
         vtxTrans.Y *= inverseW;
