@@ -12,4 +12,9 @@ private:
 
 public:
     Trianglist() = default;
+
+    Trianglist(std::array<T, N> vtxs, std::array<size_t, N> idxs)
+        : m_vtxs(vtxs)
+        , m_idxs(idxs)
+
 };
