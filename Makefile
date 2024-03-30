@@ -70,9 +70,9 @@ oocd_interface  ?= stlink-v2
 oocd_target     ?= stm32f4x
 
 all: dir clean elf size
-size: $(bin_dir)/$(binary).size
-elf: $(bin_dir)/$(binary).elf
-bin: $(bin_dir)/$(binary).bin
+size:  $(bin_dir)/$(binary).size
+elf:   $(bin_dir)/$(binary).elf
+bin:   $(bin_dir)/$(binary).bin
 flash: $(bin_dir)/$(binary).flash
 
 generated_binaries += $(bin_dir)/$(binary).elf
