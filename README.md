@@ -2,6 +2,7 @@
 
 ## About
 The goal of the project is to visualize electromagnetic fields in three-dimensional space. The prototype is being written for an STM32F4 series board with an Arm Cortex-M4 microcontroller, and the current version includes peripheral drivers and a basic 3D rendering pipeline with static memory allocation optimized for embedded environments. In the future, the rendering engine will be moved to a separate repository for desktop host platforms. The design also includes an IR mesh network as a topology and sensing data collector. There are several approaches to using IR beacons for positioning, which will be explored further.
+
 The project's most challenging problem is the topological interpolation of the electromagnetic field based on sparse sampling. General properties of electromagnetic fields, such as the sampling density to wavelength ratio and the inverse square law, will be utilized. The [field interpolation simulator](https://github.com/esterlein/waveworm-field-caster) created for this project is used for research and development, and the repository readme file includes additional information on this topic.
 
 ## Disclaimer
