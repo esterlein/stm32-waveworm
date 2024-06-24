@@ -5,7 +5,7 @@ The goal of the project is to visualize electromagnetic fields in three-dimensio
 
 The project's most challenging problem is the topological interpolation of the electromagnetic field based on sparse sampling. General properties of electromagnetic fields, such as the sampling density to wavelength ratio and the inverse square law, will be utilized.
 
-The [field interpolation simulator](https://github.com/esterlein/waveworm-field-caster) created for this project is used for research and development, and the repository readme file includes additional information on this topic.
+The [field interpolation simulator](https://github.com/esterlein/waveworm-caster) created for this project is used for research and development, and the repository readme file includes additional information on this topic.
 
 ## Disclaimer
 This project is a Work In Progress. Some parts are not implemented or are not working.
